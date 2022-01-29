@@ -16,7 +16,7 @@ int main()
     if (potenssi < 0) {
         cout << "Error! The cube of " << luku << " is not " << potenssi << "." << endl;
     }
-    else if (cbrt(potenssi) == luku){
+    else if (cbrt(potenssi) != luku){
         cout << "Error! The cube of " << luku << " is not " << potenssi << "." << endl;
     }
     else {
