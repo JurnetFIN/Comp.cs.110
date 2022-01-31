@@ -7,18 +7,16 @@ int laskeminen(int pallot, int arvat) {
     int jakaja = 1;
     int tulos = 1;
 
-    for (int i = 1; (i-1) < pallot; ++i) {
-        jakava *= i;
+    if (pallot == arvat) {
+        return 1;
     }
-    for (int i = 1; (i) < (pallot-arvat+1); ++i) {
+
+    for (int i = pallot-arvat+1; i <= pallot; ++i) {
+            jakava *= i;
+    }
+    for (int i = 1; i <= arvat; ++i) {
         jakaja *= i;
-        //cout << i << endl;
-        //cout << "" << endl;
-        //cout << jakaja << endl;
     }
-    //cout << "" << endl;
-    cout << jakava << endl;
-    //cout << jakaja << endl;
     tulos = jakava / jakaja;
     return tulos;
 }
