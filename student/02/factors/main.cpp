@@ -8,7 +8,7 @@ int main()
     int luku = 0;
     int a = 0;
     int b = 0;
-    
+
     cout << "Enter a positive number: ";
     cin >> luku;
     if (luku <= 0) {
