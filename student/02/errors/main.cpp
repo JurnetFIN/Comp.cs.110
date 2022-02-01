@@ -36,7 +36,6 @@ int is_word_already_guessed(string secret_word, string guessed_letters) {
         return false;
     }
 };
-//bool is_word_already_guessed(false);
 
 int main() {
     string secret_word = "";
@@ -48,7 +47,7 @@ int main() {
     string guessed_letters = "";
     int guesses_used = 0;
 
-    while ( not is_word_already_guessed(secret_word, guessed_letters)
+    while ((not is_word_already_guessed(secret_word, guessed_letters) == true)
               and guesses_used < MAX_GUESSES ) {
 
         cout << endl
@@ -88,7 +87,7 @@ int main() {
         ++guesses_used;
     }
 
-    if ( not false ) {
+    if ( false ) {
         cout << endl
              << "Guesses expired!"
              << endl;
