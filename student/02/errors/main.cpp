@@ -9,12 +9,34 @@ const int MAX_GUESSES = 10;
 // Prints empty lines at the beginning of execution
 void clean_screen();
 
-// Checks if all the letters include in the list of guessed letters
-bool is_word_already_guessed(string secret, string guessed);
-
 // Prints string using '_' in the places of letters not guessed
 void print_game_status(string secret, string guessed);
 
+// Checks if all the letters include in the list of guessed letters
+int is_word_already_guessed(string secret_word, string guessed_letters) {
+    char kirjain = 'a';
+    char testi = 'b';
+    int oikeat_kirjaimet = 0;
+    for ( int a = 0; a < int (secret_word.length()); ++a) {
+        kirjain = secret_word.at(a);
+        for (int b = 0; b < int (guessed_letters.length()); ++b) {
+            testi = guessed_letters.at(b);
+            if(kirjain != testi) {
+                continue;
+            }
+            else {
+                oikeat_kirjaimet += 1;
+            }
+        }
+    }
+    if(oikeat_kirjaimet == int (secret_word.length())) {
+        return true;
+    }
+    else {
+        return false;
+    }
+};
+//bool is_word_already_guessed(false);
 
 int main() {
     string secret_word = "";
@@ -66,7 +88,7 @@ int main() {
         ++guesses_used;
     }
 
-    if ( not is_word_already_guessed(secret_word, guessed_letters) ) {
+    if ( not false ) {
         cout << endl
              << "Guesses expired!"
              << endl;

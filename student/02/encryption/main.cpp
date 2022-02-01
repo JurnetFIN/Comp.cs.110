@@ -34,6 +34,7 @@ int main()
             return EXIT_FAILURE;
         }
     }
+
     string salattava = "";
     cout<< "Enter the text to be encrypted: ";
     cin >> salattava;
