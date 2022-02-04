@@ -3,6 +3,12 @@
 
 // Write your swap function here.
 
+void swap(int& i,int& j) {
+    int a = 0;
+    a = i;
+    i = j;
+    j = a;
+}
 
 
 #ifndef UNIT_TESTING
