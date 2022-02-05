@@ -16,12 +16,10 @@ void produce_random_numbers(unsigned int lower, unsigned int upper)
     string kirjain = "";
     while (kirjain != "q") {
         unsigned int luku = distr(gen);
-        if(lower < luku) {
-            cout << "" << endl;
-            cout << "Your drawn random number is " << luku << endl;
-            cout << "Press q to quit or any other key to continue: ";
-            cin >> kirjain;
-        }
+        cout << "" << endl;
+        cout << "Your drawn random number is " << luku << endl;
+        cout << "Press q to quit or any other key to continue: ";
+        cin >> kirjain;
     }
 }
 
