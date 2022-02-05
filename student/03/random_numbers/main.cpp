@@ -6,12 +6,18 @@ using namespace std;
 
 void produce_random_numbers(unsigned int lower, unsigned int upper)
 {
+    int seed = 0;
+    cout << "Enter a seed value: ";
+    cin >> seed;
+
+    default_random_engine gen(seed);
+    uniform_int_distribution<int> distr(lower, upper);
+
     string kirjain = "";
     while (kirjain != "q") {
-        cout << "" << endl;
-        unsigned
-                int luku = (rand() % upper);
+        unsigned int luku = distr(gen);
         if(lower < luku) {
+            cout << "" << endl;
             cout << "Your drawn random number is " << luku << endl;
             cout << "Press q to quit or any other key to continue: ";
             cin >> kirjain;
