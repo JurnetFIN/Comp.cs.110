@@ -6,7 +6,16 @@ using namespace std;
 
 void produce_random_numbers(unsigned int lower, unsigned int upper)
 {
-    // Implement your function here
+    string kirjain = "";
+    while (kirjain != "q") {
+        cout << "" << endl;
+        int luku = (rand() % upper);
+        if(lower < luku) {
+            cout << "Your drawn random number is " << luku << endl;
+            cout << "Press q to quit or any other key to continue: ";
+            cin >> kirjain;
+        }
+    }
 }
 
 int main()
