@@ -9,7 +9,8 @@ void produce_random_numbers(unsigned int lower, unsigned int upper)
     string kirjain = "";
     while (kirjain != "q") {
         cout << "" << endl;
-        int luku = (rand() % upper);
+        unsigned
+                int luku = (rand() % upper);
         if(lower < luku) {
             cout << "Your drawn random number is " << luku << endl;
             cout << "Press q to quit or any other key to continue: ";
