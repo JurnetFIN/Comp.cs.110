@@ -19,7 +19,7 @@ void Account::set_credit_limit(int amount) {
 }
 
 void Account::print() const {
-    std::cout << owner_ << " : " << iban_ << " : " << amount_ << std::endl;
+    std::cout << owner_ << " : " << iban_ << " : " << amount_ << " euros" << std::endl;
 }
 
 void Account::save_money(int amount) {
