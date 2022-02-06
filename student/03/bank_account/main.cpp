@@ -22,7 +22,7 @@ int main()
 {
     cout << "1: Creating three accounts" << endl;
     Account current_account("Tupu");
-    Account savings_account ("Hupu");
+    Account savings_account("Hupu");
     Account credit_card_account("Lupu", true);
 
     // Setting credit limit for a credit card account

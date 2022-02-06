@@ -1,17 +1,20 @@
 #ifndef ACCOUNT_HH
 #define ACCOUNT_HH
-
 #include <string>
 
-class Account
-{
-public:
+class Account {
+  public:
     // Constructor
     Account(const std::string& owner, bool has_credit = false);
 
     // More methods
+    void print() const;
+    void set_credit_limit(int amount);
+    void save_money(int amount);
+    bool take_money(int amount);
+    int transfer_to(Account& to, int amount);
 
-private:
+  private:
     // Generates IBAN (based on running_number_ below).
     // Allows no more than 99 accounts.
     void generate_iban();
@@ -24,6 +27,11 @@ private:
     static int running_number_;
 
     // More attributes/methods
+    std::string owner_;
+    bool credential_;
+    std::string iban_;
+    int amount_;
+    int creditlimit_;
 };
 
 #endif // ACCOUNT_HH
