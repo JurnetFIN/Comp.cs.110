@@ -24,14 +24,14 @@ int main()
     book1.print();
 
     // Renewing a book
- //   book1.renew();
+    book1.renew();
     book1.print();
 
     // Returning the book
- //   book1.give_back();
+   book1.give_back();
 
     // Trying to renew an available book
- //   book1.renew();
+    book1.renew();
     book1.print();
 
     // Loaning again (two weeks later)
