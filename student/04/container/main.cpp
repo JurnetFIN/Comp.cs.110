@@ -5,7 +5,7 @@
 int is_geometric_series(std::vector<int>& ints)
 {
     if (ints.at(0) == 0) {
-        return true;
+        return false;
     }
 
     int jako = (ints.at(1) / ints.at(0));
