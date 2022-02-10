@@ -4,8 +4,13 @@
 
 int is_geometric_series(std::vector<int>& ints)
 {
+    if (ints.at(0) == 0) {
+        return true;
+    }
+
     int jako = (ints.at(1) / ints.at(0));
     int aiempi_luku = ints.at(0);
+
     for (int i : ints) {
         if (ints.at(0) == i) {
             continue;
@@ -48,6 +53,7 @@ int is_ordered_non_strict_ascending(std::vector<int>& ints)
 }
 
 int same_values(std::vector<int>& ints)
+
 {
     int eka_luku = ints.at(0);
     for( int i : ints) {
