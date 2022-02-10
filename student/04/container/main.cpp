@@ -38,7 +38,7 @@ int is_ordered_non_strict_ascending(std::vector<int>& ints)
 {
     int aiempi_luku = ints.at(0) -1;
     for (int i : ints) {
-         if (aiempi_luku < i) {
+         if (aiempi_luku <= i) {
              aiempi_luku = i;
          } else {
              return false;
