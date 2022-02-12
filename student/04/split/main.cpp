@@ -13,7 +13,7 @@ std::vector< std::string > split(std::string line, char separator, bool a=false)
         if (i != separator) {
 
             sana.append(1, i);
-            merkki = 0;    
+            merkki = 0;
 
         } else {
 
