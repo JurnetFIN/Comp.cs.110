@@ -6,16 +6,17 @@ std::vector< std::string > split(std::string line, char separator, bool a=false)
 {
     std::vector< std::string > new_line;
 
-    int merkki = 1;
+    int merkki = 0;
     std::string sana = "";
 
     for(char i : line) {
         if (i != separator) {
 
             sana.append(1, i);
-            merkki = 0;
+            merkki = 0;    
 
         } else {
+
             new_line.push_back(sana);
             sana = "";
             if (a==false and merkki > 1) {
@@ -29,35 +30,9 @@ std::vector< std::string > split(std::string line, char separator, bool a=false)
             }
         }
     }
+
     new_line.push_back(sana);
 
-    /*
-    for (size_t i = 0; i < line.length(); i++) {
-        // std::cout << i << " " << line.at(i) << std::endl;
-
-        sana = "";
-
-        while ((line.at(i) != separator) && (i < line.length())) {
-            sana.append(1,line.at(i));
-            i++;
-        }
-
-        if (a == true) {
-            // ignoring empty parts
-            if (sana.length() > 0) {
-                new_line.push_back(sana);
-            }
-        } else {
-            // including empty parts
-            new_line.push_back(sana);
-        }
-    }
-
-    // Tyhjä osa syntyy mikäli merkkijono päättyy erotinmerkillä
-    if ((a == false) && (line.back() == separator)) {
-        new_line.push_back("");
-    }
-    */
     return new_line;
 
 }
