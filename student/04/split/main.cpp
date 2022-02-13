@@ -18,7 +18,7 @@ std::vector< std::string > split(std::string line, char separator, bool a=false)
 
         } else {
 
-            if (a==false and alku != 0) {
+            if (a==false) {
                 new_line.push_back(sana);
                 sana = "";
 
