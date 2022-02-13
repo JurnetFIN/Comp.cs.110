@@ -8,6 +8,7 @@ std::vector< std::string > split(std::string line, char separator, bool a=false)
 
     int merkki = 0;
     std::string sana = "";
+    int alku = 0;
 
     for(char i : line) {
         if (i != separator) {
@@ -17,17 +18,34 @@ std::vector< std::string > split(std::string line, char separator, bool a=false)
 
         } else {
 
-            new_line.push_back(sana);
-            sana = "";
+            if (a==false and alku != 0) {
+                new_line.push_back(sana);
+                sana = "";
+
+            } else if (sana.length() > 0) {
+                new_line.push_back(sana);
+                sana = "";
+            }
+
+            alku = 1;
+
+            /*
+            if (a==true and (sana.length() > 0)) {
+                new_line.push_back(sana);
+                sana = "";
+            }
+
             if (a==false and merkki > 1) {
                 new_line.push_back("");
             }
 
-            merkki += 1;
-
-            if (a==true and merkki > 1) {
+            if (a==true and merkki > 1 and ) {
                 new_line.pop_back();
             }
+            */
+
+            merkki += 1;
+
         }
     }
 
