@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <random>
 
 using namespace std;
 
@@ -64,13 +65,58 @@ void print(const std::vector<std::vector<int>>& gameboard)
 
 std::vector<std::vector<int>> input(std::vector<std::vector<int>> gameboard)
 {
+    // Muuttujien luonti
+    int seed_arvo = 0;
+    std::vector< int > numbers;
+    int count = (BOARD_SIDE * BOARD_SIDE);
 
-    for( int y = 0; y < 5; ++y ) {
-        std::vector<int> row;
-        for( int x = 0; x < 5; ++x ) {
-            row.push_back( 1 );
+    // Kysytaan merkkijono, kunnes se vastaa haluttuja arvoja.
+    while(true) {
+        std::cout << "Select start (R for random, I for input): ";
+        std::string sana = "";
+        getline(std::cin, sana);
+
+        // Jos halutaan satunnaiset luvut
+        if (sana == "r" or sana == "R") {
+            // Kysytaan siemenluku
+            std::cout << "Enter seed value: ";
+            std::cin >> seed_arvo;
+
+            // Luodaan luvut ja tallenetaan vektoriin
+            default_random_engine gen(seed_arvo);
+            uniform_int_distribution<int> distr(1, 5);
+            for(int i = 0; i < count; ++i) {
+                unsigned int luku = distr(gen);
+                numbers.push_back(luku);
+            }
+            break;
+
+        // Jos halutaan ei-satunnaiset luvut
+        } else if (sana == "i" or sana == "I") {
+            // Kysytaan luvut
+            int new_integer = 0;
+            std::cout << "Enter the integers: ";
+
+            // Lisataan luvut vektoriin
+            for(int i = 0; i < count; ++i) {
+                std::cout << "";
+                std::cin >> new_integer;
+                numbers.push_back(new_integer);
+            }
+
+            break;
         }
-        gameboard.push_back( row );
+    }
+
+    // Muodosteaan vektori vektoriin
+    int a = 0;
+    for(unsigned int y = 0; y < BOARD_SIDE; ++y ) {
+        std::vector<int> rivi;
+        for(unsigned int x = 0; x < BOARD_SIDE; ++x ) {
+            rivi.push_back(numbers.at(a));
+            a += 1;
+        }
+        gameboard.push_back( rivi );
     }
 
     return gameboard;
@@ -81,5 +127,4 @@ int main()
     std::vector<std::vector<int>> board;
     board = input(board);
     print(board);
-    std::cout << board.at(4).at(4) << std::endl;
 }
