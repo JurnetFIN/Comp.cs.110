@@ -34,10 +34,11 @@ unsigned int stoi_with_check(const string& str)
     }
 }
 
+
 // Tulostaa pelilaudan rivi- ja sarakenumeroineen.
 //
 // Prints the game board with row and column numbers.
-void print(const /*vector of vectors or a compatible type*/& gameboard)
+void print(const std::vector<std::vector<int>>& gameboard)
 {
     cout << "=================" << endl;
     cout << "|   | 1 2 3 4 5 |" << endl;
@@ -61,7 +62,24 @@ void print(const /*vector of vectors or a compatible type*/& gameboard)
     cout << "=================" << endl;
 }
 
+std::vector<std::vector<int>> input(std::vector<std::vector<int>> gameboard)
+{
+
+    for( int y = 0; y < 5; ++y ) {
+        std::vector<int> row;
+        for( int x = 0; x < 5; ++x ) {
+            row.push_back( 1 );
+        }
+        gameboard.push_back( row );
+    }
+
+    return gameboard;
+}
+
 int main()
 {
-    return 0;
+    std::vector<std::vector<int>> board;
+    board = input(board);
+    print(board);
+    std::cout << board.at(4).at(4) << std::endl;
 }
