@@ -1,3 +1,41 @@
+/* Hitori
+ *
+ * Kuvaus:
+ *   Ohjelma toteuttaa Hitori-pelin. Pelissä on peliruudukko kooltaan
+ * 5 x 5. Kukin ruutu sisältää jonkin numeroista 1-5. Vaaka- ja
+ * pystyriveillä voi aluksi olla useita samoja numeroita, mutta
+ * tarkoituksena on poistaa numeroita niin, että kullakin vaaka- ja
+ * pystyrivillä on kutakin numeroa vain yksi tai ei yhtään. Kuitenkaan
+ * vierekkäisten ruutujen numeroita ei saa poistaa, eikä mikään jäljelle
+ * jäävä numero (ruutu) saa jäädä irralleen muista, eli sen ympäriltä
+ * (yläpuolelta, alapuolelta, vasemmalta, oikealta) ei saa poistaa
+ * kaikkia numeroita.
+ *   Aluksi käyttäjältä kysytään, täytetäänkö peliruudukko satunnaisesti
+ * arvottavilla luvuilla 1-5 vai käyttäjän valitsemilla 25 luvulla.
+ * Ensimmäisessä vaihtoehdossa käyttäjältä kysytään satunnaisluku-
+ * generaattorin siemenlukua ja jälkimmäisessä häntä pyydetään syöttämään
+ * 25 lukua.
+ *   Joka kierroksella käyttäjältä kysytään poistettavan numeron
+ * koordinaatteja eli kahta lukua. Peli päättyy pelaajan voittoon,
+ * jos peliruudukon kaikilla vaaka- ja pystyriveillä esiintyy kukin
+ * numero 1-5 korkeintaan kerran. Peli päättyy pelaajan häviöön,
+ * jos hän poistaa jo poistetun numeron viereisen numeron tai jos
+ * jokin numero jää irralleen muista.
+ *   Ohjelma tarkistaa annetut koordinaatit. Koordinaattien pitää olla
+ * peliruudukon sisällä, ja niiden osoittaman ruudun pitää sisältää
+ * numero, eli jo poistettua numeroa ei voi poistaa toiseen kertaan.
+ *   Pelin päättyessä kerrotaan, voittiko vai hävisikö pelaaja.
+ *
+ * Ohjelman kirjoittaja
+ * Nimi: Juliusz Kotelba
+ * Opiskelijanumero: 150586775
+ * Käyttäjätunnus: nmjuko
+ * E-Mail: juliusz.kotelba@tuni.fi
+ *
+ * Huomioita ohjelmasta ja sen toteutuksesta:
+ *
+ * */
+
 #include <iostream>
 #include <vector>
 #include <random>
