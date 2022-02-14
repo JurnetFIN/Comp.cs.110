@@ -32,8 +32,6 @@
  * Käyttäjätunnus: nmjuko
  * E-Mail: juliusz.kotelba@tuni.fi
  *
- * Huomioita ohjelmasta ja sen toteutuksesta:
- *
  * */
 
 #include <iostream>
@@ -44,6 +42,7 @@ using namespace std;
 
 const unsigned int BOARD_SIDE = 5;
 const unsigned char EMPTY = ' ';
+
 
 // Muuttaa annetun numeerisen merkkijonon vastaavaksi kokonaisluvuksi
 // (kutsumalla stoi-funktiota).
@@ -73,6 +72,57 @@ unsigned int stoi_with_check(const string& str)
     }
 }
 
+// Kayttaja syottaa ruudun kordinaatit, jonka han haluaa poistaa
+vector<unsigned int> remove_input(vector<vector<int>> pelikentta) {
+    // Luodaan muuuttujat
+    vector<unsigned int> inputs;
+    string uusi_numero = "";
+    int num = 0;
+
+    // Kysyllaan niin kauan kunnes tulee hyvaksyttava arvo
+    while(true) {
+        cout << "Enter removable element (x, y): ";
+
+        // Tallennetaan syotteet
+        for(int i = 0; i < 2; ++i) {
+            cout << "";
+            cin >> uusi_numero;
+
+            // jos meilla on tarve poistua silmukasta valittomasti
+            if (uusi_numero == "q") {
+                inputs.push_back(0);
+                inputs.push_back(0);
+                return inputs;
+
+            // jos syote on luku lisataan se vektoriin
+            } else {
+                num = stoi_with_check(uusi_numero);
+                if (num != 0) {
+                    inputs.push_back(num);
+                } // else, syote ei ole luku
+            }
+        }
+
+        // Tarkastellaan syotteita
+        // jos vektori on tyhja se tarkoittaa, etta syotteet eivat olleet lukuja
+        if (inputs.size() != 0) {
+            if ((inputs.at(0) > BOARD_SIDE) or (inputs.at(1) > BOARD_SIDE)) {
+                cout << "Out of board" << endl;
+                inputs.clear();
+            } else if ((pelikentta.at((inputs.at(1))-1).at((inputs.at(0))-1)) == 0) {
+                cout << "Already removed" << endl;
+                inputs.clear();
+            } else {
+                break;
+            }
+
+        // tulostetaan virhe
+        } else {
+            cout << "Out of board" << endl;
+        }
+    }
+    return inputs;
+}
 
 // Tulostaa pelilaudan rivi- ja sarakenumeroineen.
 //
@@ -87,59 +137,58 @@ void print(const std::vector<std::vector<int>>& gameboard)
         cout << "| " << i + 1 << " | ";
         for(unsigned int j = 0; j < BOARD_SIDE; ++j)
         {
-            if(gameboard.at(i).at(j) == 0)
-            {
+            if(gameboard.at(i).at(j) == 0) {
                 cout << EMPTY << " ";
-            }
-            else
-            {
+
+            } else {
                 cout << gameboard.at(i).at(j) << " ";
             }
         }
         cout << "|" << endl;
-    }
+        }
     cout << "=================" << endl;
 }
 
-std::vector<std::vector<int>> input(std::vector<std::vector<int>> gameboard)
+// Luo kentan kayttajan syotteiden pohjalta
+vector<vector<int>> input(vector<vector<int>> pelikentta)
 {
     // Muuttujien luonti
     int seed_arvo = 0;
-    std::vector< int > numbers;
+    vector< int > numerot;
     int count = (BOARD_SIDE * BOARD_SIDE);
 
     // Kysytaan merkkijono, kunnes se vastaa haluttuja arvoja.
     while(true) {
-        std::cout << "Select start (R for random, I for input): ";
-        std::string sana = "";
-        getline(std::cin, sana);
+        cout << "Select start (R for random, I for input): ";
+        string sana = "";
+        getline(cin, sana);
 
         // Jos halutaan satunnaiset luvut
         if (sana == "r" or sana == "R") {
             // Kysytaan siemenluku
-            std::cout << "Enter seed value: ";
-            std::cin >> seed_arvo;
+            cout << "Enter seed value: ";
+            cin >> seed_arvo;
 
             // Luodaan luvut ja tallenetaan vektoriin
             default_random_engine gen(seed_arvo);
             uniform_int_distribution<int> distr(1, 5);
             for(int i = 0; i < count; ++i) {
                 unsigned int luku = distr(gen);
-                numbers.push_back(luku);
+                numerot.push_back(luku);
             }
             break;
 
         // Jos halutaan ei-satunnaiset luvut
         } else if (sana == "i" or sana == "I") {
             // Kysytaan luvut
-            int new_integer = 0;
-            std::cout << "Enter the integers: ";
+            int uusi_numero = 0;
+            cout << "Enter the integers: ";
 
             // Lisataan luvut vektoriin
             for(int i = 0; i < count; ++i) {
-                std::cout << "";
-                std::cin >> new_integer;
-                numbers.push_back(new_integer);
+                cout << "";
+                cin >> uusi_numero;
+                numerot.push_back(uusi_numero);
             }
 
             break;
@@ -147,22 +196,39 @@ std::vector<std::vector<int>> input(std::vector<std::vector<int>> gameboard)
     }
 
     // Muodosteaan vektori vektoriin
-    int a = 0;
+    int a= 0;
     for(unsigned int y = 0; y < BOARD_SIDE; ++y ) {
-        std::vector<int> rivi;
+        vector<int> rivi;
         for(unsigned int x = 0; x < BOARD_SIDE; ++x ) {
-            rivi.push_back(numbers.at(a));
+            rivi.push_back(numerot.at(a));
             a += 1;
         }
-        gameboard.push_back( rivi );
+        pelikentta.push_back( rivi );
     }
 
-    return gameboard;
+    return pelikentta;
 }
 
 int main()
 {
-    std::vector<std::vector<int>> board;
+    vector<vector<int>> board;
+    vector<unsigned int> kordinaatit;
+
     board = input(board);
     print(board);
+
+    while(true) {
+        kordinaatit = remove_input(board);
+
+        // jos kayttaja syotti q(uit)
+        if (kordinaatit.at(0) == 0 and kordinaatit.at(1) == 0) {
+            break;
+
+        // Muulloin tarkastellaan pelitilannetta
+        } else {
+            // Poistetaan luku
+            board.at((kordinaatit.at(0)-1)).at((kordinaatit.at(1)-1)) = 0;
+            print(board);
+        }
+    }
 }
