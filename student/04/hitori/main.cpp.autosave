@@ -49,12 +49,18 @@ bool game_won(vector<vector<int>> pelikentta)
     int num_check;
     int tarkistus = 1;
 
+    // tarkistetaan jokainen ruutu pelissa
     for(unsigned int x = 0; x < BOARD_SIDE; ++x) {
         for(unsigned int y = 0; y < BOARD_SIDE; ++y) {
+            // tallennetaan lahtokohta
             int num = pelikentta.at(x).at(y);
-
+            
+            // jos ruutu ei ole tyhja tarkastellaan riveja
             if (num != 0) {
+                // jokainen paikka ruudusta sivulle seka ylos/alas
                 for (unsigned int c = 0; c < BOARD_SIDE; ++c) {
+                    // jos sama numero on jossain pystyivilla
+                    // pelaaja ei voittanut viela pelia
                     if (c != x) {
                         num_check = pelikentta.at(c).at(y);
                         if (num == num_check) {
@@ -62,6 +68,8 @@ bool game_won(vector<vector<int>> pelikentta)
                         }
                     }
 
+                    // jos sama numero on jossain vaakarivilla
+                    // pelaaja ei voittanut viela pelia                    
                     if (c != y) {
                         num_check = pelikentta.at(x).at(c);
                         if (num == num_check) {
@@ -73,6 +81,7 @@ bool game_won(vector<vector<int>> pelikentta)
         }
     }
 
+    // jos yksikaan tarkistus ei muuttanut tarkistus arvon arvoa pela
     if (tarkistus == 1) {
         return true;
     }
@@ -83,26 +92,33 @@ bool game_won(vector<vector<int>> pelikentta)
 
 bool game_lost(vector<vector<int>> pelikentta)
 {
+    // Tarkistetaan jokaisen ruudun viereiset ruudut
     for(unsigned int x = 0; x < BOARD_SIDE; ++x) {
         for (unsigned int y = 0; y < BOARD_SIDE; ++y) {
             int tarkistus = 1;
-
+            
+            // Jos ruutu ei ole vasemmassa laidassa tarkistetaan vasemmalla oleva ruutu
             if (x > 0) {
                 if (pelikentta.at(x-1).at(y) != 0) {
                     tarkistus *= 0; }}
 
+            // Jos ruutu ei ole ylalaidassa tarkistetaan ylapuolella oleva ruutu
             if (y > 0) {
                 if (pelikentta.at(x).at(y-1) != 0) {
                     tarkistus *= 0; }}
 
+            // Jos ruutu ei ole alalaidassa tarkistetaan alapuolella oleva ruutu
             if (y < (BOARD_SIDE-1)) {
                 if (pelikentta.at(x).at(y+1) != 0) {
                     tarkistus *= 0; }}
 
+            // Jos ruutu ei ole oikeassa laidassa tarkistetaan oikealla oleva ruutu
             if (x < (BOARD_SIDE-1)) {
                 if (pelikentta.at(x+1).at(y) != 0) {
                     tarkistus *= 0; }}
 
+            // Jos kaikki ruudut olivat nollia niin kertolaskun tulos on yksi
+            // eli havio
             if (tarkistus == 1) {
                 return true;
             }
@@ -115,10 +131,6 @@ bool game_lost(vector<vector<int>> pelikentta)
 // Muuttaa annetun numeerisen merkkijonon vastaavaksi kokonaisluvuksi
 // (kutsumalla stoi-funktiota).
 // Jos annettu merkkijono ei ole numeerinen, palauttaa nollan.
-//
-// Converts the given numeric string to the corresponding integer
-// (by calling stoi).
-// If the given string is not numeric, returns zero.
 unsigned int stoi_with_check(const string& str)
 {
     bool is_numeric = true;
@@ -174,14 +186,18 @@ vector<unsigned int> remove_input(vector<vector<int>> pelikentta) {
         // Tarkastellaan syotteita
         // jos vektori on tyhja se tarkoittaa, etta syotteet eivat olleet lukuja
         if (inputs.size() != 0) {
+            // Jos syote on numero;
+            // jos syote on kentan ulkopuolella
             if ((inputs.at(0) > BOARD_SIDE) or (inputs.at(1) > BOARD_SIDE)) {
                 cout << "Out of board" << endl;
                 inputs.clear();
 
-            } else if ((pelikentta.at((inputs.at(1))-1).at((inputs.at(0))-1)) == 0) {
+            // jos syotteen ruutu on jo aiemmin poistettu
+            } else if ((pelikentta.at((inputs.at(1))-1).at((inputs.at(0))-1)) == 0){
                 cout << "Already removed" << endl;
                 inputs.clear();
-
+            
+            // muulloin syote on oikeassa muodossa ja voimme jatkaa pelia
             } else {
                 break;
             }
@@ -283,11 +299,13 @@ int main()
 {
     vector<vector<int>> board;
     vector<unsigned int> kordinaatit;
-
+    
+    // kysytaan alkutilanne
     board = input(board);
     print(board);
 
     while(true) {
+        // kysytaan syote
         kordinaatit = remove_input(board);
 
         // jos kayttaja syotti q(uit)
@@ -301,10 +319,12 @@ int main()
             board.at((kordinaatit.at(1)-1)).at((kordinaatit.at(0)-1)) = 0;
             print(board);
 
+            // Tarkistetaan havisiko pelaaja pelin
             if (game_lost(board) == true) {
                 cout << "You lost" << endl;
                 break;
 
+            // Tarkistetaan voittiko pelaaja pelin
             } else if (game_won(board) == true) {
                 cout << "You won" << endl;
                 break;
