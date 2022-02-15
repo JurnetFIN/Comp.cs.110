@@ -43,6 +43,36 @@ using namespace std;
 const unsigned int BOARD_SIDE = 5;
 const unsigned char EMPTY = ' ';
 
+bool game_lost(vector<vector<int>> pelikentta)
+{
+    for(unsigned int x = 0; x < BOARD_SIDE; ++x) {
+        for (unsigned int y = 0; y < BOARD_SIDE; ++y) {
+            int tarkistus = 1;
+
+            if (x > 0) {
+                if (pelikentta.at(x-1).at(y) != 0) {
+                    tarkistus *= 0; }}
+
+            if (y > 0) {
+                if (pelikentta.at(x).at(y-1) != 0) {
+                    tarkistus *= 0; }}
+
+            if (y < (BOARD_SIDE-1)) {
+                if (pelikentta.at(x).at(y+1) != 0) {
+                    tarkistus *= 0; }}
+
+            if (x < (BOARD_SIDE-1)) {
+                if (pelikentta.at(x+1).at(y) != 0) {
+                    tarkistus *= 0; }}
+
+            if (tarkistus == 1) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
 
 // Muuttaa annetun numeerisen merkkijonon vastaavaksi kokonaisluvuksi
 // (kutsumalla stoi-funktiota).
@@ -88,7 +118,7 @@ vector<unsigned int> remove_input(vector<vector<int>> pelikentta) {
             cout << "";
             cin >> uusi_numero;
 
-            // jos meilla on tarve poistua silmukasta valittomasti
+            // jos meilla on tarve sulkea peli valittomasti
             if (uusi_numero == "q") {
                 inputs.push_back(0);
                 inputs.push_back(0);
@@ -109,9 +139,11 @@ vector<unsigned int> remove_input(vector<vector<int>> pelikentta) {
             if ((inputs.at(0) > BOARD_SIDE) or (inputs.at(1) > BOARD_SIDE)) {
                 cout << "Out of board" << endl;
                 inputs.clear();
+
             } else if ((pelikentta.at((inputs.at(1))-1).at((inputs.at(0))-1)) == 0) {
                 cout << "Already removed" << endl;
                 inputs.clear();
+
             } else {
                 break;
             }
@@ -222,13 +254,23 @@ int main()
 
         // jos kayttaja syotti q(uit)
         if (kordinaatit.at(0) == 0 and kordinaatit.at(1) == 0) {
+            cout << "Quitting" << endl;
             break;
 
         // Muulloin tarkastellaan pelitilannetta
         } else {
             // Poistetaan luku
-            board.at((kordinaatit.at(0)-1)).at((kordinaatit.at(1)-1)) = 0;
+            board.at((kordinaatit.at(1)-1)).at((kordinaatit.at(0)-1)) = 0;
             print(board);
+
+            if (game_lost(board) == true) {
+                cout << "You lost" << endl;
+                break;
+
+            } /* else if (game_won(board) == true) {
+                cout << "You won" << endl;
+                break;
+            }*/
         }
     }
 }
