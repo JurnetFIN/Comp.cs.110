@@ -269,7 +269,7 @@ vector<vector<int>> input(vector<vector<int>> pelikentta)
         } else if (sana == "i" or sana == "I") {
             // Kysytaan luvut
             int uusi_numero = 0;
-            cout << "Enter the integers: ";
+            cout << "Input: ";
 
             // Lisataan luvut vektoriin
             for(int i = 0; i < count; ++i) {
