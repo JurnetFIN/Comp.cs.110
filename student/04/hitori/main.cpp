@@ -97,26 +97,51 @@ bool game_lost(vector<vector<int>> pelikentta)
     for(unsigned int x = 0; x < BOARD_SIDE; ++x) {
         for (unsigned int y = 0; y < BOARD_SIDE; ++y) {
             int tarkistus = 1;
+            int alkuperainen_ruutu = pelikentta.at(x).at(y);
 
             // Jos ruutu ei ole vasemmassa laidassa tarkistetaan vasemmalla oleva ruutu
             if (x > 0) {
                 if (pelikentta.at(x-1).at(y) != 0) {
-                    tarkistus *= 0; }}
+                    tarkistus *= 0;
+
+                // jos kaksi ruutua vierekkain on tyhjia
+                } else {
+                if (alkuperainen_ruutu == pelikentta.at(x-1).at(y)) {
+                    return true; }}
+            }
 
             // Jos ruutu ei ole ylalaidassa tarkistetaan ylapuolella oleva ruutu
             if (y > 0) {
                 if (pelikentta.at(x).at(y-1) != 0) {
-                    tarkistus *= 0; }}
+                    tarkistus *= 0;
+
+                // jos kaksi ruutua vierekkain on tyhjia
+                } else {
+                if (alkuperainen_ruutu == pelikentta.at(x).at(y-1)) {
+                    return true; }}
+            }
 
             // Jos ruutu ei ole alalaidassa tarkistetaan alapuolella oleva ruutu
             if (y < (BOARD_SIDE-1)) {
                 if (pelikentta.at(x).at(y+1) != 0) {
-                    tarkistus *= 0; }}
+                    tarkistus *= 0;
+
+                // jos kaksi ruutua vierekkain on tyhjia
+                } else {
+                if (alkuperainen_ruutu == pelikentta.at(x).at(y+1)) {
+                    return true; }}
+            }
 
             // Jos ruutu ei ole oikeassa laidassa tarkistetaan oikealla oleva ruutu
             if (x < (BOARD_SIDE-1)) {
                 if (pelikentta.at(x+1).at(y) != 0) {
-                    tarkistus *= 0; }}
+                    tarkistus *= 0;
+
+                // jos kaksi ruutua vierekkain on tyhjia
+                } else {
+                if (alkuperainen_ruutu == pelikentta.at(x+1).at(y)) {
+                    return true; }}
+            }
 
             // Jos kaikki ruudut olivat nollia niin kertolaskun tulos on yksi
             // eli havio
@@ -177,10 +202,14 @@ vector<unsigned int> remove_input(vector<vector<int>> pelikentta) {
 
             // jos syote on luku lisataan se vektoriin
             } else {
-                num = stoi_with_check(uusi_numero);
                 if (num != 0) {
-                    inputs.push_back(num);
-                } // else, syote ei ole luku
+                    num = stoi_with_check(uusi_numero);
+                    if (num != 0) {
+                        inputs.push_back(num);
+                }}
+                // lisataan viela yksi luku sita varten jos toinen luvuista
+                // olisi oikea ja toinen ei
+                //inputs.push_back(0);
             }
         }
 
