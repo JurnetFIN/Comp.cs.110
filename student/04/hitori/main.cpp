@@ -234,6 +234,7 @@ vector<unsigned int> remove_input(vector<vector<int>> pelikentta) {
         // tulostetaan virhe
         } else {
             cout << "Out of board" << endl;
+            inputs.clear();
         }
     }
     return inputs;
