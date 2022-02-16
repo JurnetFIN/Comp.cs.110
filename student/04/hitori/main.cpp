@@ -202,11 +202,10 @@ vector<unsigned int> remove_input(vector<vector<int>> pelikentta) {
 
             // jos syote on luku lisataan se vektoriin
             } else {
+                num = stoi_with_check(uusi_numero);
                 if (num != 0) {
-                    num = stoi_with_check(uusi_numero);
-                    if (num != 0) {
-                        inputs.push_back(num);
-                }}
+                    inputs.push_back(num);
+                }
                 // lisataan viela yksi luku sita varten jos toinen luvuista
                 // olisi oikea ja toinen ei
                 //inputs.push_back(0);
@@ -214,8 +213,8 @@ vector<unsigned int> remove_input(vector<vector<int>> pelikentta) {
         }
 
         // Tarkastellaan syotteita
-        // jos vektori on tyhja se tarkoittaa, etta syotteet eivat olleet lukuja
-        if (inputs.size() != 0) {
+        // jos vektorissa ei ole kahta arvoa se tarkoittaa, etta syote on vaara
+        if (inputs.size() >= 2) {
             // Jos syote on numero;
             // jos syote on kentan ulkopuolella
             if ((inputs.at(0) > BOARD_SIDE) or (inputs.at(1) > BOARD_SIDE)) {
