@@ -15,12 +15,14 @@ int main() {
     getline(cin, output_nimi);
 
     ifstream input_tiedosto(input_nimi);
-    ofstream output_tiedosto(output_nimi);
 
     if ( not input_tiedosto ) {
         cout << "Error! The file " << input_nimi << " cannot be opened." << endl;
         return EXIT_FAILURE;
     }
+
+    ofstream output_tiedosto(output_nimi);
+
     string rivi;
     int i = 0;
     while (getline(input_tiedosto, rivi)) {
