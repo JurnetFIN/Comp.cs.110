@@ -6,20 +6,29 @@
 using namespace std;
 
 int main() {
-    string tiedoston_nimi = "";
+    string input_nimi = "";
     cout << "Input file: ";
-    getline(cin, tiedoston_nimi);
+    getline(cin, input_nimi);
 
-    ifstream tiedosto_olio(tiedoston_nimi);
-    if ( not tiedosto_olio ) {
-        cout << "Error! The file " << tiedoston_nimi << " cannot be opened." << endl;
+    string output_nimi = "";
+    cout << "Output file: ";
+    getline(cin, output_nimi);
+
+    ifstream input_tiedosto(input_nimi);
+    ofstream output_tiedosto(output_nimi);
+
+    if ( not input_tiedosto ) {
+        cout << "Error! The file " << input_nimi << " cannot be opened." << endl;
     } else {
-        vector<string> rivit_tiedostossa;
-        string rivi;
-        while (getline(tiedosto_olio, rivi)) {
-            rivit_tiedostossa.push_back(rivi);
-        }
-        tiedosto_olio.close();
-        cout << rivit_tiedostossa.at(0) << endl;
+        input_tiedosto.seekg(0, input_tiedosto.end);
+        long size = input_tiedosto.tellg();
+        input_tiedosto.seekg (0);
+
+        char* buffer = new char[size];
+
+        input_tiedosto.read(buffer, size);
+        output_tiedosto.write(buffer, size);
+
+        input_tiedosto.close();
     }
 }
