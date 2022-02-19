@@ -1,11 +1,25 @@
-#include "mainwindow.hh"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
 
-#include <QApplication>
+using namespace std;
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
+int main() {
+    string tiedoston_nimi = "";
+    cout << "Input file: ";
+    getline(cin, tiedoston_nimi);
+
+    ifstream tiedosto(tiedoston_nimi);
+    if ( not tiedosto ) {
+        cout << "Error! The file " << tiedoston_nimi << " cannot be opened." << endl;
+    } else {
+        vector<string> rivit_tiedostossa;
+        string rivi;
+        while (getline(tiedosto, rivi)) {
+            rivit_tiedostossa.push_back(rivi);
+        }
+        tiedosto.close();
+        cout << rivit_tiedostossa.at(1) << endl;
+    }
 }
