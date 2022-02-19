@@ -25,7 +25,7 @@ int main() {
     int i = 0;
     while (getline(input_tiedosto, rivi)) {
         i += 1;
-        cout << i << " " << rivi << endl;
+        output_tiedosto << i << " " << rivi << endl;
     }
 
     input_tiedosto.close();
