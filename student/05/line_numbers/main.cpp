@@ -19,16 +19,15 @@ int main() {
 
     if ( not input_tiedosto ) {
         cout << "Error! The file " << input_nimi << " cannot be opened." << endl;
-    } else {
-        input_tiedosto.seekg(0, input_tiedosto.end);
-        long size = input_tiedosto.tellg();
-        input_tiedosto.seekg (0);
-
-        char* buffer = new char[size];
-
-        input_tiedosto.read(buffer, size);
-        output_tiedosto.write(buffer, size);
-
-        input_tiedosto.close();
+        return EXIT_FAILURE;
     }
+    string rivi;
+    int i = 0;
+    while (getline(input_tiedosto, rivi)) {
+        i += 1;
+        cout << i << " " << rivi << endl;
+    }
+
+    input_tiedosto.close();
+    output_tiedosto.close();
 }
