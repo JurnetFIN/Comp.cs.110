@@ -22,19 +22,19 @@ int main() {
     map<string, vector<int>>::iterator iter;
     int rivi_nro = 0;
     string rivi;
+    vector<int> lista;
     vector<int> rivit_nro;
     while (getline(input_tiedosto, rivi)) /*(true)*/ {
         string sana;
         int i = 0;
         rivi_nro += 1;
-        string tyhja = " ";
         rivi.push_back(' ');
         int rivin_pituus = rivi.size();
 
         // Tulkitaan rivi
         while (i != (rivin_pituus)) {
             // Jos tutkittava kohde ei ole tyhja
-            if (rivi.at(i) == ' ')  {
+            if (rivi.at(i) != ' ')  {
                 sana.push_back(rivi.at(i));
 
 
@@ -42,7 +42,7 @@ int main() {
             } else {
                 iter = sanat.find(sana);
                 if (iter == sanat.end()) {
-                    vector<int> lista;
+                    lista.clear();
                     lista.push_back(rivi_nro);
                     sanat.insert(pair<string, vector<int>>(sana, lista));
 
