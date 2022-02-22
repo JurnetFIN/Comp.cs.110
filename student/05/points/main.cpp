@@ -58,7 +58,7 @@ int main() {
     cout << "Final scores:" << endl;
     iter = piste_taulukko.begin();
     while (iter != piste_taulukko.end()) {
-        cout << iter->first << " " << iter->second << endl;
+        cout << iter->first << ": " << iter->second << endl;
         ++iter;
     }
 //    input_tiedosto.close();
