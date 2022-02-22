@@ -37,6 +37,7 @@ int main() {
             if (isspace(rivi.at(i)) == false)  {
                 sana.push_back(rivi.at(i));
 
+
             // Jos se on tyhja se tarkoittaa sanan loppua
             } else {
                 iter = sanat.find(sana);
@@ -75,4 +76,5 @@ int main() {
         ++iter;
     }
     input_tiedosto.close();
+    return EXIT_SUCCESS;
 }
