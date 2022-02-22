@@ -37,7 +37,6 @@ int main() {
             if (rivi.at(i) != ' ')  {
                 sana.push_back(rivi.at(i));
 
-
             // Jos se on tyhja se tarkoittaa sanan loppua
             } else {
                 iter = sanat.find(sana);
@@ -48,8 +47,10 @@ int main() {
 
                 } else {
                     rivit_nro = iter->second;
-                    rivit_nro.push_back(rivi_nro);
-                    sanat.at(sana) = rivit_nro;
+                    if (rivit_nro.back() != rivi_nro) {
+                        rivit_nro.push_back(rivi_nro);
+                        sanat.at(sana) = rivit_nro;
+                    }
                 }
                 sana.clear();
             }
