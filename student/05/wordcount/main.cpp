@@ -34,7 +34,7 @@ int main() {
         // Tulkitaan rivi
         while (i != (rivin_pituus)) {
             // Jos tutkittava kohde ei ole tyhja
-            if (isspace(rivi.at(i)) == false)  {
+            if (rivi.at(i) == ' ')  {
                 sana.push_back(rivi.at(i));
 
 
