@@ -76,5 +76,6 @@ int main() {
         ++iter;
     }
     input_tiedosto.close();
-    return EXIT_SUCCESS;
+
+    return 0;
 }
