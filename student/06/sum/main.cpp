@@ -30,8 +30,15 @@ int sum_recursive(std::vector<int>& v){
     // Do not remove RECURSIVE_FUNC declaration, it's necessary for automatic testing to work
     // ------------
 
+    if (v.size() <= 1) {
+        return v.at(0);
+    }
 
-    // Add your implementation here
+    v.at(0) += v.at(v.size()-1);
+    v.pop_back();
+
+    return sum_recursive(v);
+
 }
 
 // Do not modify rest of the code, or the automated testing won't work.
