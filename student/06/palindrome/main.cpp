@@ -4,18 +4,19 @@
 #define RECURSIVE_FUNC
 #endif
 
-bool palindrome_recursive(std::string s, int luku=0)
+bool palindrome_recursive(std::string s)
 {
   RECURSIVE_FUNC
   // Do not remove RECURSIVE_FUNC declaration, it's necessary for automatic testing to work
   // ------------
     int pituus = s.size();
-    if (pituus == luku) {
+    if (pituus < 2) {
         return true;
 
-    } else if (s.at(luku) == s.at(pituus-luku-1)) {
-        luku += 1;
-        return palindrome_recursive(s, luku);
+    } else if (s.at(0) == s.at(pituus-1)) {
+        s.pop_back();
+        s.erase(0);
+        return palindrome_recursive(s);
     } else {
         return false;
     }
