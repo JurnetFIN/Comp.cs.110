@@ -9,19 +9,19 @@ bool palindrome_recursive(std::string s)
   RECURSIVE_FUNC
   // Do not remove RECURSIVE_FUNC declaration, it's necessary for automatic testing to work
   // ------------
-    int pituus = s.size();
-    if (pituus < 2) {
-        return true;
 
-    } else if (s.at(0) == s.at(pituus-1)) {
-        s.pop_back();
-        s.erase(0);
-        return palindrome_recursive(s);
-    } else {
-        return false;
-    }
+  int pituus = s.size();
 
-  // Add your implementation here
+  if (pituus < 2) {
+      return true;
+  }
+
+  if (s.at(0) != s.at(pituus-1)) {
+      return false;
+  }
+
+  return palindrome_recursive(s.substr(1,pituus-2));
+
 }
 
 // Do not modify rest of the code, or the automated testing won't work.
