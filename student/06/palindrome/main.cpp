@@ -17,7 +17,7 @@ bool palindrome_recursive(std::string s)
 
     } else if (s.at(luku) == s.at(pituus-luku-1)) {
         luku += 1;
-        palindrome_recursive(s);
+        return palindrome_recursive(s);
     } else {
         return false;
     }
