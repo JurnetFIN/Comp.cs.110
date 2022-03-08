@@ -2,6 +2,9 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <map>
+
+using namespace std;
 
 const std::string HELP_TEXT = "S = store id1 i2\nP = print id\n"
                               "C = count id\nD = depth id\n";
@@ -29,11 +32,85 @@ std::vector<std::string> split(const std::string& s,
     }
     return result;
 }
+int depth(const map<string,vector<string>>& verkko,
+           const string& henkilo, int& montako, int& pisin){
+
+    if (verkko.find(henkilo) == verkko.end()){
+        if (montako > pisin) {
+            return montako;
+         } else {
+            montako = 1;
+            return pisin;
+        }
+    }
+    for (auto henkilox : verkko.at(henkilo)){
+        montako += 1;
+        pisin = depth(verkko, henkilox, montako, pisin);
+    }
+    montako = 1;
+    return pisin;
+}
+
+int count(map<string,vector<string>> verkko, string henkilo){
+    if (verkko.find(henkilo) == verkko.end()){
+        return 0;
+    } else {
+        return verkko.at(henkilo).size();
+    }
+}
+
+void print(const map<string, vector<string>> verkko, string id,
+           int laskin, bool miinustettu) {
+    int i = 0;
+    miinustettu = false;
+    while (i < laskin){
+        cout << "..";
+        i += 1;
+    }
+
+    cout << id << endl;
+
+    if (verkko.find(id) == verkko.end()){
+        return;
+    }
+
+    for (auto& idx : verkko.at(id)){
+        laskin += 1;
+        if (miinustettu){
+            laskin -= 1;
+            miinustettu = false;
+        } else {
+            print(verkko, idx, laskin, miinustettu);
+            laskin -= 1;
+        }
+    }
+}
+
+map<string,vector<string>> store(map<string, vector<string>> verkko, string id1, string id2) {
+
+    vector<string> tyhja_nimilista;
+
+    map<string, vector<string>>::iterator nimi;
+    nimi = verkko.find(id1);
+    if (nimi == verkko.end()) {
+        vector<string> nimilista;
+        nimilista.push_back(id2);
+
+        verkko.insert(pair<string, vector<string>>(id1, nimilista));
+        verkko.insert(pair<string, vector<string>>(id2, tyhja_nimilista));
+
+    } else {
+        verkko[id1].push_back(id2);
+        verkko.insert(pair<string, vector<string>>(id2, tyhja_nimilista));
+
+    }
+    return verkko;
+}
 
 int main()
 {
-    // TODO: Implement the datastructure here
 
+    map<string, vector<string>> verkko;
 
     while(true)
     {
@@ -60,7 +137,7 @@ int main()
             std::string id1 = parts.at(1);
             std::string id2 = parts.at(2);
 
-            // TODO: Implement the command here!
+            verkko = store(verkko, id1, id2);
 
         }
         else if(command == "P" or command == "p")
@@ -72,7 +149,9 @@ int main()
             }
             std::string id = parts.at(1);
 
-            // TODO: Implement the command here!
+            int laskin = 0;
+            bool arvo = false;
+            print(verkko, id, laskin, arvo);
 
         }
         else if(command == "C" or command == "c")
@@ -84,7 +163,7 @@ int main()
             }
             std::string id = parts.at(1);
 
-            // TODO: Implement the command here!
+            cout << count(verkko, id) << endl;
 
         }
         else if(command == "D" or command == "d")
@@ -96,7 +175,9 @@ int main()
             }
             std::string id = parts.at(1);
 
-            // TODO: Implement the command here!
+            int montako = 1;
+            int pisin = 0;
+            cout << depth(verkko, id, montako, pisin) << endl;
 
         }
         else if(command == "Q" or command == "q")
