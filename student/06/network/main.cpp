@@ -34,21 +34,18 @@ std::vector<std::string> split(const std::string& s,
 }
 
 int depth(const map<string,vector<string>>& verkko,
-           const string& henkilo, int& montako, int& pisin){
+           const string& henkilo, int montako, int& pisin){
+    if (verkko.at(henkilo).size()==0){
+        if (montako > pisin){
+            pisin = montako;}
+        --montako;
+         //cout << montako << pisin << henkilo << endl;
+    } else {
+        ++montako;
+    }
 
-    if (verkko.find(henkilo) == verkko.end()){
-        if (montako > pisin) {
-            return montako;
-         } else {
-            montako = 1;
-            return pisin;
-        }
-    }
     for (auto henkilox : verkko.at(henkilo)){
-        montako += 1;
-        pisin = depth(verkko, henkilox, montako, pisin);
-    }
-    montako = 1;
+        depth(verkko, henkilox, montako, pisin); }
     return pisin;
 }
 
