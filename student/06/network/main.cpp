@@ -55,8 +55,7 @@ int depth(const map<string,vector<string>>& verkko,
 int count(map<string,vector<string>> verkko, string henkilo, int& montako){
     for (auto henkilox : verkko.at(henkilo)){
         ++montako;
-        count(verkko, henkilox, montako);
-    }
+        count(verkko, henkilox, montako); }
     return montako;
 }
 
@@ -164,7 +163,7 @@ int main()
             }
             std::string id = parts.at(1);
 
-            int i = 1;
+            int i = 0;
             cout << count(verkko, id, i) << endl;
 
         }
