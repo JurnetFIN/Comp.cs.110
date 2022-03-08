@@ -32,6 +32,7 @@ std::vector<std::string> split(const std::string& s,
     }
     return result;
 }
+
 int depth(const map<string,vector<string>>& verkko,
            const string& henkilo, int& montako, int& pisin){
 
@@ -51,12 +52,12 @@ int depth(const map<string,vector<string>>& verkko,
     return pisin;
 }
 
-int count(map<string,vector<string>> verkko, string henkilo){
-    if (verkko.find(henkilo) == verkko.end()){
-        return 0;
-    } else {
-        return verkko.at(henkilo).size();
+int count(map<string,vector<string>> verkko, string henkilo, int& montako){
+    for (auto henkilox : verkko.at(henkilo)){
+        ++montako;
+        count(verkko, henkilox, montako);
     }
+    return montako;
 }
 
 void print(const map<string, vector<string>> verkko, string id,
@@ -163,7 +164,8 @@ int main()
             }
             std::string id = parts.at(1);
 
-            cout << count(verkko, id) << endl;
+            int i = 1;
+            cout << count(verkko, id, i) << endl;
 
         }
         else if(command == "D" or command == "d")
