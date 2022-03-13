@@ -48,6 +48,18 @@ vector<string> split( const string& str, char delim = ';' )
 }
 
 /**
+ * Funktio tulostaa aakkosjarjestyksessa kaikki annetut pelit allekkain
+ *
+ * @param tietorakenne
+  */
+void all_games(map<string, map<string, string>> tiedosto) {
+    vector<string> nimet;
+    for (auto& x: tiedosto) {
+        cout << x.first << endl;;
+    }
+}
+
+/**
  * Funktio, joka lisaa uuden pelin tietorakenteeseen,
  * jos sita ei ole ennestaan olemassa.
  *
@@ -60,6 +72,7 @@ vector<string> split( const string& str, char delim = ';' )
 void add_game(map<string, map<string, string>>& tiedosto, string peli,
               bool kayttajan_syotto=false) {
     if (tiedosto.find(peli) == tiedosto.end()) {
+        cout << "TESTI" << endl;
         tiedosto.insert(make_pair(peli, map<string, string>()));
         return;
     }
@@ -151,7 +164,7 @@ bool suorita_komento(map<string, map<string, string>> tiedosto,
         return false;
 
     } else if (komento == "ALL_GAMES") {
-        //all_games(tiedosto);
+        all_games(tiedosto);
 
     } else if (komento == "ALL_PLAYERS") {
         //all_players(tiedosto);
