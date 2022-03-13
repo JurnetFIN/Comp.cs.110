@@ -49,6 +49,53 @@ vector<string> split( const string& str, char delim = ';' )
 }
 
 /**
+ * Funktio tulostaa pelin tulokset ja pelaajat allekkain
+ *
+ * @param tiedosto
+ * @param peli
+ */
+void game(map<string, map<string, string>>& tiedosto, string peli) {
+    map<int, map<string, string>> tulokset;
+
+    // Tarkistetaan onko peli olemassa
+    if (tiedosto.find(peli) == tiedosto.end()) {
+        cout << "Error: Game could not be found." << endl;
+        return;
+    }
+
+    // Lisataan pelaaja "tulokset" tietorakenteeseen
+    for (auto& pelaajat: tiedosto[peli]) {
+        int piste_arvo = stoi(pelaajat.second, nullptr);
+
+        // Jos piste_arvoa ei ole viela ollut lisataan se
+        if (tulokset.find(piste_arvo) == tulokset.end()) {
+            tulokset.insert(make_pair(piste_arvo, map<string, string>()));
+        }
+
+        // Lisataan pelaaja piste arvon kohdalle
+        tulokset[piste_arvo].insert(make_pair(pelaajat.first, ""));
+    }
+
+    // Alkukommentti
+    cout << "Game " << peli <<
+            " has these scores and players, listed in ascending order:" << endl;
+
+    // Tulostetaan tulokset
+    for (auto& pisteet: tulokset) {
+        cout << pisteet.first << " : ";
+
+        // Jos on kyseessa ensimmainen nimi rivilla, tulostetaan ilman pilkkua.
+        // Sen jalkeen tulostetaan pilkun kanssa
+        string pre_fix = "";
+        for (auto& nimet: tulokset.at(pisteet.first)) {
+            cout << pre_fix << nimet.first;
+            pre_fix = ", ";
+        }
+        cout << endl;
+    }
+}
+
+/**
  * Funktio tulostaa kaikki pelit, missa annettu pelaaja pelaa
  *
  * @param tiedosto
@@ -68,7 +115,7 @@ void player(map<string, map<string, string>>& tiedosto, string pelaaja) {
     if (pelit.size() == 0) {
         cout << "Error: Player could not be found." << endl;
 
-    // Jos pelaajan on pelaamassa, tulostetaan pelit jossa han pelaa
+        // Jos pelaaja on pelaamassa, tulostetaan pelit jossa han pelaa
     } else {
         cout << "Player " << pelaaja << " playes the following games:" << endl;
         for (unsigned i=0; i<pelit.size(); i++) {
@@ -97,7 +144,7 @@ void remove(map<string, map<string, string>>& tiedosto, string pelaaja) {
     if (poistettu) {
         cout << "Player was removed from all games." << endl;
 
-    // Jos ei ollut ainuattakaan poistoa tulostetaan virhe
+        // Jos ei ollut ainuattakaan poistoa tulostetaan virhe
     } else {
         cout << "Error: Player could not be found." << endl;
     }
@@ -141,16 +188,6 @@ void all_games(map<string, map<string, string>>& tiedosto) {
         cout << x.first << endl;;
     }
 }
-/**
- * @brief Palauttaa bool arvon onko peli olemassa
- * @param tiedosto
- * @param pelin_nimi
- * @return false=ei ole, true=on
- */
-bool onko_peli_olemassa(map<string, map<string, string>>& tiedosto,
-                        string pelin_nimi) {
-    return (tiedosto.find(pelin_nimi) != tiedosto.end());
-}
 
 /**
  * Funktio, joka lisaa uuden pelin tietorakenteeseen,
@@ -165,7 +202,7 @@ bool onko_peli_olemassa(map<string, map<string, string>>& tiedosto,
 void add_game(map<string, map<string, string>>& tiedosto, string peli,
               bool kayttajan_syotto=false) {
     // Lisataan peli, jos sita ei ole olemassa
-    if (!onko_peli_olemassa(tiedosto, peli)) {
+    if (tiedosto.find(peli) == tiedosto.end()) {
         tiedosto.insert(make_pair(peli, map<string, string>()));
         if (kayttajan_syotto == true) {
             cout << "Game was added." << endl;
@@ -192,7 +229,7 @@ void add_player(map<string, map<string, string>>& tiedosto, string peli,
                 string pelaaja, string pisteet, bool kasinsyotto=false) {
     if (kasinsyotto == true) {
         // Jos kayttaja syotti tuntemattoman pelin tulostetaan virhe
-        if (!onko_peli_olemassa(tiedosto, peli)) {
+        if (tiedosto.find(peli) == tiedosto.end()) {
             cout << "Error: Game could not be found." << endl;
             return;
         }
@@ -284,7 +321,7 @@ bool suorita_komento(map<string, map<string, string>>& tiedosto,
         all_players(tiedosto);
 
     } else if ((komento == "GAME") and (param_maara >= 2)) {
-        //game(tiedosto, syote.at(1));
+        game(tiedosto, syote.at(1));
 
     } else if ((komento == "PLAYER") and (param_maara >= 2)) {
         player(tiedosto, syote.at(1));
