@@ -23,6 +23,7 @@
 #include <vector>
 #include <map>
 #include <fstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -48,15 +49,49 @@ vector<string> split( const string& str, char delim = ';' )
 }
 
 /**
- * Funktio tulostaa aakkosjarjestyksessa kaikki annetut pelit allekkain
+ * Funktio tulostaa aakkosjarjestyksessa kaikki annetut pelaajat allekkain
+ *
+ * Ensin funktio etsii kaikki pelaajat tietorakenteesta. Pelaaja lisataan aina
+ * mappiin, koska samat nimet "päällekirjoittuu". Sen jalkeen tulostetaan
+ * nimet aakkosjarjestyksessa
+ * HUOM! Kaytan map rakennetta vektorin sijaan, koska huomasin taman olevan
+ * lyhyempi ja parempi "sorted" algoritmi
  *
  * @param tietorakenne
   */
-void all_games(map<string, map<string, string>> tiedosto) {
-    vector<string> nimet;
+void all_players(map<string, map<string, string>>& tiedosto) {
+    map<string, string> nimet;
+
+    for (auto& x: tiedosto) {
+        for (auto& y: (tiedosto.at(x.first))) {
+            nimet.insert(make_pair(y.first, ""));
+        }
+    }
+
+    for (auto& i: nimet) {
+        cout << i.first << endl;;
+    }
+}
+
+/**
+ * @brief Funktio tulostaa aakkosjarjestyksessa kaikki annetut pelit allekkain
+ * @param tietorakenne
+  */
+void all_games(map<string, map<string, string>>& tiedosto) {
+    cout << "All games in alphabetical order:" << endl;
     for (auto& x: tiedosto) {
         cout << x.first << endl;;
     }
+}
+/**
+ * @brief Palauttaa bool arvon onko peli olemassa
+ * @param tiedosto
+ * @param pelin_nimi
+ * @return false=ei ole, true=on
+ */
+bool onko_peli_olemassa(map<string, map<string, string>>& tiedosto,
+                        string pelin_nimi) {
+    return (tiedosto.find(pelin_nimi) != tiedosto.end());
 }
 
 /**
@@ -71,12 +106,16 @@ void all_games(map<string, map<string, string>> tiedosto) {
  */
 void add_game(map<string, map<string, string>>& tiedosto, string peli,
               bool kayttajan_syotto=false) {
-    if (tiedosto.find(peli) == tiedosto.end()) {
-        cout << "TESTI" << endl;
+    // Lisataan peli, jos sita ei ole olemassa
+    if (!onko_peli_olemassa(tiedosto, peli)) {
         tiedosto.insert(make_pair(peli, map<string, string>()));
+        if (kayttajan_syotto == true) {
+            cout << "Game was added." << endl;
+        }
         return;
     }
 
+    // Tulostetaan virhe jos on tarvetta
     if (kayttajan_syotto == true) {
         cout << "Error: Already exists." << endl;
     }
@@ -84,7 +123,7 @@ void add_game(map<string, map<string, string>>& tiedosto, string peli,
 
 /**
  * Funktio, joka lisaa pelaajan tietorakenteeseen ja mahdollisesti lisaa
- * uuden pelin tietorakenteeseen, jos sita ei ole ennestaan olemassa
+ * uuden pelin tietorakenteeseen, jos sita ei ole ennestaan olemassa.
  *
  * @param tietorakenne
  * @param pelin_nimi
@@ -92,9 +131,23 @@ void add_game(map<string, map<string, string>>& tiedosto, string peli,
  * @param pelaajan pisteet
  */
 void add_player(map<string, map<string, string>>& tiedosto, string peli,
-                string pelaaja, string pisteet) {
-    add_game(tiedosto, peli);
+                string pelaaja, string pisteet, bool kasinsyotto=false) {
+    if (kasinsyotto == true) {
+        // Jos kayttaja syotti tuntemattoman pelin tulostetaan virhe
+        if (!onko_peli_olemassa(tiedosto, peli)) {
+            cout << "Error: Game could not be found." << endl;
+            return;
+        }
 
+        // Jos pelaaja on olemassa, paivitetaan hanen pisteet
+        // eli poistetaan ja sitten lisataan pelaaja uudestaan
+        if (tiedosto[peli].find(pelaaja) != tiedosto[peli].end()) {
+            tiedosto[peli].erase(pelaaja);
+        }
+        cout << "Player was added." << endl;
+    }
+
+    // Lisataan pelaaja
     tiedosto[peli].insert(make_pair(pelaaja, pisteet));
 }
 
@@ -108,7 +161,7 @@ void add_player(map<string, map<string, string>>& tiedosto, string peli,
  */
 bool lue_tiedosto(map<string, map<string, string>>& tiedosto) {
     // Avataan tiedosto
-    string input_nimi = "";
+    string input_nimi;
     cout << "Input file: ";
     getline(cin, input_nimi);
     ifstream input_tiedosto(input_nimi);
@@ -141,6 +194,7 @@ bool lue_tiedosto(map<string, map<string, string>>& tiedosto) {
             }
         }
         // Tallennetaan syotteet tietorakenteeseen
+        add_game(tiedosto, syote.at(0));
         add_player(tiedosto, syote.at(0), syote.at(1), syote.at(2));
     }
 
@@ -155,10 +209,12 @@ bool lue_tiedosto(map<string, map<string, string>>& tiedosto) {
  * @param syote; vektori jossa enintaan kolme asiaa: pelin_nimi, pelaaja, pisteet
  * @return bool; true=continue, false=QUIT
  */
-bool suorita_komento(map<string, map<string, string>> tiedosto,
+bool suorita_komento(map<string, map<string, string>>& tiedosto,
                      vector<string> syote) {
+    // Luodaan muuttujat
     string komento = syote.at(0);
     int param_maara = syote.size();
+
     // Tarkistetaan mikä komento on kyseessä
     if (komento == "QUIT") {
         return false;
@@ -167,7 +223,7 @@ bool suorita_komento(map<string, map<string, string>> tiedosto,
         all_games(tiedosto);
 
     } else if (komento == "ALL_PLAYERS") {
-        //all_players(tiedosto);
+        all_players(tiedosto);
 
     } else if ((komento == "GAME") and (param_maara > 1)) {
         //game(tiedosto, syote.at(1));
@@ -178,8 +234,8 @@ bool suorita_komento(map<string, map<string, string>> tiedosto,
     } else if ((komento == "ADD_GAME") and (param_maara > 1)) {
         add_game(tiedosto, syote.at(1), true);
 
-    } else if ((komento == "ADD_PLAYER") and (param_maara > 2)) {
-        add_player(tiedosto, syote.at(0), syote.at(1), syote.at(2));
+    } else if ((komento == "ADD_PLAYER") and (param_maara > 3)) {
+        add_player(tiedosto, syote.at(1), syote.at(2), syote.at(3));
 
     } else if ((komento == "REMOVE") and (param_maara > 1)) {
         //remove(tiedosto, syote.at(1));
