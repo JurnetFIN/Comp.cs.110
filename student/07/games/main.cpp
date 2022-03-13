@@ -235,7 +235,7 @@ bool suorita_komento(map<string, map<string, string>>& tiedosto,
         add_game(tiedosto, syote.at(1), true);
 
     } else if ((komento == "ADD_PLAYER") and (param_maara > 3)) {
-        add_player(tiedosto, syote.at(1), syote.at(2), syote.at(3));
+        add_player(tiedosto, syote.at(1), syote.at(2), syote.at(3), true);
 
     } else if ((komento == "REMOVE") and (param_maara > 1)) {
         //remove(tiedosto, syote.at(1));
