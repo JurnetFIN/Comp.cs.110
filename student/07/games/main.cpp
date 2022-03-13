@@ -48,6 +48,21 @@ vector<string> split( const string& str, char delim = ';' )
     return result;
 }
 
+void remove(map<string, map<string, string>>& tiedosto, string pelaaja) {
+    bool poistettu = false;
+    for (auto& peli: tiedosto) {
+        if (tiedosto[peli.first].find(pelaaja) != tiedosto[peli.first].end()) {
+            tiedosto[peli.first].erase(pelaaja);
+            poistettu = true;
+        }
+    }
+    if (poistettu == false) {
+        cout << "Error: Player could not be found." << endl;
+    } else {
+        cout << "Player was removed from all games." << endl;
+    }
+}
+
 /**
  * Funktio tulostaa aakkosjarjestyksessa kaikki annetut pelaajat allekkain
  *
@@ -238,7 +253,7 @@ bool suorita_komento(map<string, map<string, string>>& tiedosto,
         add_player(tiedosto, syote.at(1), syote.at(2), syote.at(3), true);
 
     } else if ((komento == "REMOVE") and (param_maara > 1)) {
-        //remove(tiedosto, syote.at(1));
+        remove(tiedosto, syote.at(1));
 
     } else {
         cout << "Error: Invalid input." << endl;
