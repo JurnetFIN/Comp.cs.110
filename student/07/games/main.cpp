@@ -48,18 +48,58 @@ vector<string> split( const string& str, char delim = ';' )
     return result;
 }
 
+/**
+ * Funktio tulostaa kaikki pelit, missa annettu pelaaja pelaa
+ *
+ * @param tiedosto
+ * @param pelaaja
+ */
+void player(map<string, map<string, string>>& tiedosto, string pelaaja) {
+    vector<string> pelit;
+
+    // Tarkastellaan missa pel(e)issa pelaaja pelaa
+    for (auto& peli: tiedosto) {
+        if (tiedosto[peli.first].find(pelaaja) != tiedosto[peli.first].end()) {
+            pelit.push_back(peli.first);
+        }
+    }
+
+    // Jos pelaaja ei pelaa tulostetaan virhe
+    if (pelit.size() == 0) {
+        cout << "Error: Player could not be found." << endl;
+
+    // Jos pelaajan on pelaamassa, tulostetaan pelit jossa han pelaa
+    } else {
+        cout << "Player " << pelaaja << " playes the following games:" << endl;
+        for (unsigned i=0; i<pelit.size(); i++) {
+            cout << pelit.at(i) << endl;
+        }
+    }
+}
+
+/**
+ * Funktio poistaa pelaajan kaikista peleista
+ *
+ * @param tiedosto
+ * @param pelaaja
+ */
 void remove(map<string, map<string, string>>& tiedosto, string pelaaja) {
     bool poistettu = false;
+
+    // Poistetaan pelaaja jokaisesta pelista
     for (auto& peli: tiedosto) {
         if (tiedosto[peli.first].find(pelaaja) != tiedosto[peli.first].end()) {
             tiedosto[peli.first].erase(pelaaja);
             poistettu = true;
         }
     }
-    if (poistettu == false) {
-        cout << "Error: Player could not be found." << endl;
-    } else {
+    // Jos poisto tehtiin vahintaan kerran tulostetaan suoritus teksti
+    if (poistettu) {
         cout << "Player was removed from all games." << endl;
+
+    // Jos ei ollut ainuattakaan poistoa tulostetaan virhe
+    } else {
+        cout << "Error: Player could not be found." << endl;
     }
 }
 
@@ -69,7 +109,7 @@ void remove(map<string, map<string, string>>& tiedosto, string pelaaja) {
  * Ensin funktio etsii kaikki pelaajat tietorakenteesta. Pelaaja lisataan aina
  * mappiin, koska samat nimet "päällekirjoittuu". Sen jalkeen tulostetaan
  * nimet aakkosjarjestyksessa
- * HUOM! Kaytan map rakennetta vektorin sijaan, koska huomasin taman olevan
+ * HUOM! Kaytan map rakennetta vektorin sijaan, koska huomasin sen olevan
  * lyhyempi ja parempi "sorted" algoritmi
  *
  * @param tietorakenne
@@ -77,12 +117,15 @@ void remove(map<string, map<string, string>>& tiedosto, string pelaaja) {
 void all_players(map<string, map<string, string>>& tiedosto) {
     map<string, string> nimet;
 
+    // Etsitaan kaikki pelaajat tietorakenteesta
     for (auto& x: tiedosto) {
         for (auto& y: (tiedosto.at(x.first))) {
             nimet.insert(make_pair(y.first, ""));
         }
     }
 
+    // Tulostetaan kaikki nimet aakkosjarjestyksessa
+    cout << "All players in alphabetical order:" << endl;
     for (auto& i: nimet) {
         cout << i.first << endl;;
     }
@@ -176,7 +219,7 @@ void add_player(map<string, map<string, string>>& tiedosto, string peli,
  */
 bool lue_tiedosto(map<string, map<string, string>>& tiedosto) {
     // Avataan tiedosto
-    string input_nimi;
+    string input_nimi = "";
     cout << "Input file: ";
     getline(cin, input_nimi);
     ifstream input_tiedosto(input_nimi);
@@ -240,19 +283,19 @@ bool suorita_komento(map<string, map<string, string>>& tiedosto,
     } else if (komento == "ALL_PLAYERS") {
         all_players(tiedosto);
 
-    } else if ((komento == "GAME") and (param_maara > 1)) {
+    } else if ((komento == "GAME") and (param_maara >= 2)) {
         //game(tiedosto, syote.at(1));
 
-    } else if ((komento == "PLAYER") and (param_maara > 1)) {
-        //player(tiedosto, syote.at(1));
+    } else if ((komento == "PLAYER") and (param_maara >= 2)) {
+        player(tiedosto, syote.at(1));
 
-    } else if ((komento == "ADD_GAME") and (param_maara > 1)) {
+    } else if ((komento == "ADD_GAME") and (param_maara >= 2)) {
         add_game(tiedosto, syote.at(1), true);
 
-    } else if ((komento == "ADD_PLAYER") and (param_maara > 3)) {
+    } else if ((komento == "ADD_PLAYER") and (param_maara >= 4)) {
         add_player(tiedosto, syote.at(1), syote.at(2), syote.at(3), true);
 
-    } else if ((komento == "REMOVE") and (param_maara > 1)) {
+    } else if ((komento == "REMOVE") and (param_maara >= 2)) {
         remove(tiedosto, syote.at(1));
 
     } else {
