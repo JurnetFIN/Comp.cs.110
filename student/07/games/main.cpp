@@ -49,39 +49,45 @@ vector<string> split( const string& str, char delim = ';' )
 
 /**
  * Funktio, joka lisaa uuden pelin tietorakenteeseen,
- * jos sita ei ole ennastaan olemassa.
+ * jos sita ei ole ennestaan olemassa.
  *
- * Jos peli on jo olemassa funktio palauttaa paluuarvon false
+ * Jos peli on jo olemassa, funktio tulostaa virheen
  *
  * @param tietorakenne
  * @param pelin nimi
- * @return true/false
+ * @param kayttajan_syotto; true=kylla, false=ei
  */
-bool add_game(map<string, map<string, string>>& tiedosto, string peli) {
+void add_game(map<string, map<string, string>>& tiedosto, string peli,
+              bool kayttajan_syotto=false) {
     if (tiedosto.find(peli) == tiedosto.end()) {
         tiedosto.insert(make_pair(peli, map<string, string>()));
-        return true;
+        return;
     }
-    return false;
+
+    if (kayttajan_syotto == true) {
+        cout << "Error: Already exists." << endl;
+    }
 }
 
 /**
  * Funktio, joka lisaa pelaajan tietorakenteeseen ja mahdollisesti lisaa
- * uuden pelin tietorakenteeseen
+ * uuden pelin tietorakenteeseen, jos sita ei ole ennestaan olemassa
  *
  * @param tietorakenne
- * @param syote; vektorissa on kolme asiaa tässä järjestyksessä:
- *               peli, pelaajan_nimi, pelaajan_pisteet
+ * @param pelin_nimi
+ * @param pelaajan_nimi
+ * @param pelaajan pisteet
  */
-void add_player(map<string, map<string, string>>& tiedosto, vector<string> syote){
-    add_game(tiedosto, syote.at(0));
+void add_player(map<string, map<string, string>>& tiedosto, string peli,
+                string pelaaja, string pisteet) {
+    add_game(tiedosto, peli);
 
-    tiedosto[syote.at(0)].insert(make_pair(syote.at(1), syote.at(2)));
+    tiedosto[peli].insert(make_pair(pelaaja, pisteet));
 }
 
 /**
  * Funktio lukee syotteet syotetiedostosta ja tallentaa ne tietorakenteeseen
- * Jos syötetiedosto ei avaudu tai se ei ole kirjoitettu määrittelyn mukaan
+ * Jos syotetiedosto ei avaudu tai se ei ole kirjoitettu määrittelyn mukaan
  * tulostetaan virhe.
  *
  * @param map tiedosto
@@ -122,20 +128,88 @@ bool lue_tiedosto(map<string, map<string, string>>& tiedosto) {
             }
         }
         // Tallennetaan syotteet tietorakenteeseen
-        add_player(tiedosto, syote);
+        add_player(tiedosto, syote.at(0), syote.at(1), syote.at(2));
     }
 
     input_tiedosto.close();
     return true;
 }
 
+/**
+ * Funktio lukee komennon ja lahettaa suorituspyynnon kyseiseen funktioon
+ *
+ * @param map tiedosto
+ * @param syote; vektori jossa enintaan kolme asiaa: pelin_nimi, pelaaja, pisteet
+ * @return bool; true=continue, false=QUIT
+ */
+bool suorita_komento(map<string, map<string, string>> tiedosto,
+                     vector<string> syote) {
+    string komento = syote.at(0);
+    int param_maara = syote.size();
+    // Tarkistetaan mikä komento on kyseessä
+    if (komento == "QUIT") {
+        return false;
+
+    } else if (komento == "ALL_GAMES") {
+        //all_games(tiedosto);
+
+    } else if (komento == "ALL_PLAYERS") {
+        //all_players(tiedosto);
+
+    } else if ((komento == "GAME") and (param_maara > 1)) {
+        //game(tiedosto, syote.at(1));
+
+    } else if ((komento == "PLAYER") and (param_maara > 1)) {
+        //player(tiedosto, syote.at(1));
+
+    } else if ((komento == "ADD_GAME") and (param_maara > 1)) {
+        add_game(tiedosto, syote.at(1), true);
+
+    } else if ((komento == "ADD_PLAYER") and (param_maara > 2)) {
+        add_player(tiedosto, syote.at(0), syote.at(1), syote.at(2));
+
+    } else if ((komento == "REMOVE") and (param_maara > 1)) {
+        //remove(tiedosto, syote.at(1));
+
+    } else {
+        cout << "Error: Invalid input." << endl;
+    }
+    return true;
+}
+
 int main()
 {
+    // Ohjelma jäsentelee tiedostosta lukemansa rivit
+    // ja tallentaa tiedot peleistä ja pelaajista
     map<string, map<string, string>> tiedosto;
     if (!lue_tiedosto(tiedosto)) {
         return EXIT_FAILURE;
     }
-    cout << tiedosto["Hitori"]["Mikko"] << endl;
 
-    return EXIT_SUCCESS;
+    // Kayttaja syottaa halutun komennon ja sen
+    // jalkeen ohjelma toteuttaa pyynnon
+    // Tama jatkuu kunnes kayttaja syottaa kaskyn QUIT
+    for( ; ; ){
+        // Kayttaja syottaa komennon
+        string rivi;
+        cout << "games> ";
+        getline(cin, rivi);
+
+        // Jaetaan komento parametreiksi
+        vector<string> syote = split(rivi, ' ');
+
+        // Jos kayttaja syotti nolla parametria
+        int param_maara = syote.size();
+        if (param_maara == 0) {
+            cout << "Error: Invalid input." << endl;
+            continue;
+        }
+
+        // Tarkistetaan mikä komento on kyseessä
+        // Jos kayttaja syotti "QUIT" lopetetaan ohjelman suorittaminen
+        if (suorita_komento(tiedosto, syote) == false) {
+            return EXIT_SUCCESS;
+
+        }
+    }
 }
