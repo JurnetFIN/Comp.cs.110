@@ -257,7 +257,7 @@ void add_player(map<string, map<string, string>>& tiedosto, string peli,
 bool lue_tiedosto(map<string, map<string, string>>& tiedosto) {
     // Avataan tiedosto
     string input_nimi = "";
-    cout << "Input file: ";
+    cout << "Give a name for input file: ";
     getline(cin, input_nimi);
     ifstream input_tiedosto(input_nimi);
 
@@ -308,6 +308,7 @@ bool suorita_komento(map<string, map<string, string>>& tiedosto,
                      vector<string> syote) {
     // Luodaan muuttujat
     string komento = syote.at(0);
+    transform(komento.begin(), komento.end(), komento.begin(), ::toupper);
     int param_maara = syote.size();
 
     // Tarkistetaan mikä komento on kyseessä
