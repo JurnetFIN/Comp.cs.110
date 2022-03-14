@@ -1,21 +1,28 @@
-/*  COMP.CS.100 Project 2: GAME STATISTICS
- * ===============================
- * EXAMPLE SOLUTION
- * ===============================
+/* COMP.CS.110 Project 2: Pelitilasto
+ * Ohjelman kirjoittaja: Juliusz Kotelba
+ * Opiskelijanumero: 150586775
+ * Käyttäjätunnus: nmjuko
+ * E-Mail: juliusz.kotelba@tuni.fi
  *
- *  Acts as a game statistics with n commands:
- * ALL_GAMES - Prints all known game names
- * GAME <game name> - Prints all players playing the given game
- * ALL_PLAYERS - Prints all known player names
- * PLAYER <player name> - Prints all games the given player plays
- * ADD_GAME <game name> - Adds a new game
- * ADD_PLAYER <game name> <player name> <score> - Adds a new player with the
- * given score for the given game, or updates the player's score if the player
- * already playes the game
- * REMOVE_PLAYER <player name> - Removes the player from all games
+ * Ohjelma, joka käynnistyessään lukee pelitilastoihin liittyviä tietoja
+ * tiedostosta, tallentaa ne sopivaan tietorakenteeseen ja antaa käyttäjälle
+ * mahdollisuuden tehdä hakuja, lisäyksiä ja poistoja kyseiseen tietorakenteeseen.
  *
- *  The data file's lines should be in format game_name;player_name;score
- * Otherwise the program execution terminates instantly (but still gracefully).
+ * Komennot ovat seuraavanlaiset:
+ * QUIT - Ohjelman suoritus paattyy
+ * ALL_GAMES - Tulostaa aakkosjärjestyksessä kaikki annetut peli allekkain.
+ * GAME <oeli> - Tulostaa pelin tulokset ja pelaajat allekain.
+ * ALL_PLAYERS - Tulostaa aakkosjarjestyksessa kaikki pelaajat allekain.
+ * PLAYER <pelaajan nimi> - Tulostaa allekkain pelit, joita pelaaja pelaa.
+ * ADD_GAME <pelin nimi> - Lisaa tietorakenteeseen annetun pelin
+ * ADD_PLAYER <pelin nimi> <pelaajan nimi> <pisteet> - Komento lisaa
+ * tietorakenteeseen annetulle pelille annetun pelaajan. Jos pelaaja on jo
+ * olemassa paivitetaan pelaajan pelitulokset.
+ * REMOVE_PLAYER <pelin nimi> - Poistaa pelaajan kaikista peleista
+ *
+ * Ohjelmalle annetaan syötteenä tiedosto, jonka kullakin rivillä on kolme
+ * tietokenttää: pelin nimi, pelaajan nimi ja pelaajan saamat pisteet. Nämä on
+ * eroteltu puolipisteellä toisistaan. Esim: <peli>;<pelaaja>;<pisteet>
  *
  * */
 #include <iostream>
@@ -52,10 +59,10 @@ vector<string> split( const string& str, char delim = ';' )
  * Funktio tulostaa pelin tulokset ja pelaajat allekkain
  *
  * @param tiedosto
- * @param peli
+ * @param pelin_nimi
  */
 void game(map<string, map<string, string>>& tiedosto, string peli) {
-    map<int, map<string, string>> tulokset;
+    map<int, vector<string>> tulokset;
 
     // Tarkistetaan onko peli olemassa
     if (tiedosto.find(peli) == tiedosto.end()) {
@@ -69,11 +76,11 @@ void game(map<string, map<string, string>>& tiedosto, string peli) {
 
         // Jos piste_arvoa ei ole viela ollut lisataan se
         if (tulokset.find(piste_arvo) == tulokset.end()) {
-            tulokset.insert(make_pair(piste_arvo, map<string, string>()));
+            tulokset.insert(make_pair(piste_arvo, vector<string>()));
         }
 
         // Lisataan pelaaja piste arvon kohdalle
-        tulokset[piste_arvo].insert(make_pair(pelaajat.first, ""));
+        tulokset[piste_arvo].push_back(pelaajat.first);
     }
 
     // Alkukommentti
@@ -86,10 +93,10 @@ void game(map<string, map<string, string>>& tiedosto, string peli) {
 
         // Jos on kyseessa ensimmainen nimi rivilla, tulostetaan ilman pilkkua.
         // Sen jalkeen tulostetaan pilkun kanssa
-        string pre_fix = "";
+        string prefix = "";
         for (auto& nimet: tulokset.at(pisteet.first)) {
-            cout << pre_fix << nimet.first;
-            pre_fix = ", ";
+            cout << prefix << nimet;
+            prefix = ", ";
         }
         cout << endl;
     }
@@ -179,7 +186,8 @@ void all_players(map<string, map<string, string>>& tiedosto) {
 }
 
 /**
- * @brief Funktio tulostaa aakkosjarjestyksessa kaikki annetut pelit allekkain
+ * Funktio tulostaa aakkosjarjestyksessa kaikki annetut pelit allekkain
+ *
  * @param tietorakenne
   */
 void all_games(map<string, map<string, string>>& tiedosto) {
@@ -275,7 +283,7 @@ bool lue_tiedosto(map<string, map<string, string>>& tiedosto) {
 
         // Tulostetaan virhe jos rivillä on jotain muuta kun kolme arvoa
         if (syote.size() != 3) {
-            cout << "Invalid format in file" << endl;
+            cout << "Error: Invalid format in file." << endl;
             input_tiedosto.close();
             return false;
         }
@@ -283,7 +291,7 @@ bool lue_tiedosto(map<string, map<string, string>>& tiedosto) {
         // Tulostetaan virhe jos joku arvo on tyhja
         for (unsigned int i=0; i<syote.size(); ++i) {
             if (syote.at(i) == "") {
-                cout << "Invalid format in file" << endl;
+                cout << "Error: Invalid format in file." << endl;
                 input_tiedosto.close();
                 return false;
             }
