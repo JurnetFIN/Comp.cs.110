@@ -97,6 +97,7 @@ void write_file(string file_name, string student_number, string new_phone_number
     string output_file = "output.txt";
     ifstream file_in(file_name);
     ofstream file_out(output_file);
+    map<string, string> lines_order;
 
     string line = "";
     const char * old_name = file_name.c_str();
@@ -106,15 +107,18 @@ void write_file(string file_name, string student_number, string new_phone_number
         vector<string> parts = split(line, ';');
         if (parts.at(0) == student_number) {
             parts.at(3) = new_phone_number;
-            line.clear();
             string prefix = "";
+            line.clear();
             for(unsigned int i = 0; i < 6; ++i) {
                 line.append(prefix);
                 line.append(parts.at(i));
                 prefix = ";";
             }
         }
-        file_out << line << endl;
+        lines_order.insert(pair<string, string>(parts.at(1), line));
+    }
+    for (auto& x: lines_order) {
+        file_out << x.second << endl;
     }
     file_in.close();
     file_out.close();
