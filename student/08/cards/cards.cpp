@@ -71,30 +71,19 @@ bool Cards::top_to_bottom() {
         return false;
     }
 
-    Card_data* item_to_be_removed = bottom_;
+    Card_data* item_ptr = top_;
 
-    int& removed_id = item_to_be_removed->data;
-
-    Card_data* new_item = new Card_data{removed_id, nullptr};
-
-    // Remove
-    if (top_ == bottom_) {
-        top_ = nullptr;
-        bottom_ = nullptr;
-    } else {
-        bottom_ = nullptr;
+    while (item_ptr->next != 0) {
+        item_ptr = item_ptr->next;
     }
 
-    delete item_to_be_removed;
+    item_ptr->next = top_;
 
-    // Add
-    if (top_ == nullptr) {
-        top_ = new_item;
-        bottom_ = new_item;
-    } else {
-        top_->next = new_item;
-        top_ = new_item;
-    }
+    item_ptr = top_->next;
+
+    top_->next = nullptr;
+
+    top_ = item_ptr;
 
     return true;
 }
@@ -103,30 +92,21 @@ bool Cards::bottom_to_top() {
     if (top_ == nullptr ) {
         return false;
     }
-    Card_data* item_to_be_removed = bottom_;
 
-    int& removed_id = item_to_be_removed->data;
+    Card_data* item_ptr = top_;
 
-    Card_data* new_item = new Card_data{removed_id, nullptr};
+    while (item_ptr->next != 0) {
+        item_ptr = item_ptr->next;
+    }
+    item_ptr->next = top_;
 
-    // Remove
-    if (top_ == bottom_) {
-        top_ = nullptr;
-        bottom_ = nullptr;
-    } else {
-        bottom_ = nullptr;
+    top_ = item_ptr;
+
+    while (item_ptr->next != top_) {
+        item_ptr = item_ptr->next;
     }
 
-    delete item_to_be_removed;
-
-    // Add
-    if (top_ == nullptr) {
-        top_ = new_item;
-        bottom_ = new_item;
-    } else {
-        top_->next = new_item;
-        top_ = new_item;
-    }
+    item_ptr->next = nullptr;
 
     return true;
 }
