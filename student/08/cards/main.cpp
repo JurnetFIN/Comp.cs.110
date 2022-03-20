@@ -21,7 +21,7 @@ int main() {
 
     cout << endl << "print_from_top_to_bottom" << endl;
     deck.print_from_top_to_bottom(cout);
-
+/*
     cout << endl << "bottom_to_top * 2" << endl;
     deck.bottom_to_top();
     deck.bottom_to_top();
@@ -34,11 +34,11 @@ int main() {
 
     cout << endl << "print_from_top_to_bottom" << endl;
     deck.print_from_top_to_bottom(cout);
-
+*/
     cout << endl << "print_from_bottom_to_top" << endl;
     deck.print_from_bottom_to_top(cout);
 
-    cout << "y " << endl;
+    cout << endl;
     int value = 0;
     while(deck.remove(value)) {
         cout << "remove " << value << endl;

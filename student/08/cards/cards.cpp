@@ -13,15 +13,18 @@ Cards::~Cards() {
     }
 }
 
+Card_data* Cards::get_topmost() {
+    return top_;
+}
+
 void Cards::add(int id) {
     Card_data* new_item = new Card_data{id, nullptr};
 
     if (top_ == nullptr) {
         top_ = new_item;
-        bottom_ = new_item;
     } else {
-        bottom_->next = new_item;
-        bottom_ = new_item;
+        new_item->next = top_;
+        top_ = new_item;
     }
 }
 
@@ -34,12 +37,7 @@ bool Cards::remove(int& removed_id) {
 
     removed_id = item_to_be_removed->data;
 
-    if (top_ == bottom_) {
-        top_ = nullptr;
-        bottom_ = nullptr;
-    } else {
-        top_ = top_->next;
-    }
+    top_ = top_->next;
 
     delete item_to_be_removed;
 
@@ -58,7 +56,7 @@ void Cards::print_from_top_to_bottom(std::ostream& s) {
 }
 
 void Cards::print_from_bottom_to_top(std::ostream& s) {
-    Card_data* to_be_printed = bottom_;
+    Card_data* to_be_printed = top_;
     int nr = 1;
 
     while(to_be_printed != 0 ) {
