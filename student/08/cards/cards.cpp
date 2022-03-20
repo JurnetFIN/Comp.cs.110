@@ -20,8 +20,8 @@ void Cards::add(int id) {
         top_ = new_item;
         bottom_ = new_item;
     } else {
-        top_->next = new_item;
-        top_ = new_item;
+        bottom_->next = new_item;
+        bottom_ = new_item;
     }
 }
 
@@ -47,9 +47,25 @@ bool Cards::remove(int& removed_id) {
 }
 
 void Cards::print_from_top_to_bottom(std::ostream& s) {
+    Card_data* to_be_printed = top_;
+    int nr = 1;
+
+    while( to_be_printed != 0 ) {
+       s << nr << ": " << to_be_printed->data << std::endl;
+       to_be_printed = to_be_printed->next;
+       ++nr;
+    }
 }
 
 void Cards::print_from_bottom_to_top(std::ostream& s) {
+    Card_data* to_be_printed = bottom_;
+    int nr = 1;
+
+    while(to_be_printed != 0 ) {
+        s << nr << ": " << to_be_printed->data << std::endl;
+        to_be_printed = to_be_printed->next;
+        ++nr;
+    }
 }
 
 bool Cards::top_to_bottom() {
