@@ -53,7 +53,7 @@ private:
     unsigned int cycle_;
 
     // You can define more private features here
-
+    unsigned int cars_in_row_;
 };
 
 #endif // QUEUE_HH
