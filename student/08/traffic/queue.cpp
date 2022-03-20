@@ -44,7 +44,6 @@ void Queue::switch_light() {
         cout << endl;
 
     } else {
-        is_green_ = !is_green_;
         cout << "GREEN: Vehicle(s) ";
         for(unsigned int cycle_nro = 0; cycle_nro < cycle_; ++cycle_nro) {
             if (first_ == nullptr ) {
@@ -67,7 +66,6 @@ void Queue::switch_light() {
             delete car_to_be_removed;
         }
         cout << "can go on" << endl;
-        is_green_ = !is_green_;
     }
 }
 
@@ -92,5 +90,5 @@ void Queue::print() const {
        cout << item_to_be_printed->reg_num << " ";
        item_to_be_printed = item_to_be_printed->next;
     }
-    cout << " waiting in traffic lights" << endl;
+    cout << "waiting in traffic lights" << endl;
 }
