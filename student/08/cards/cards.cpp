@@ -45,15 +45,74 @@ bool Cards::remove(int& removed_id) {
 
     return true;
 }
-/*
-void Cards::print_from_top_to_bottom(std::ostream& s) {
-    Card_data* item_to_be_printed = top_;
-    int running_number = 1;
 
-    for(unsigned int i = 0; i < 6; ++i) {
-        std::cout << running_number << ": " << item_to_be_printed->data << std::endl;
-        ++running_number;
-        print_from_top_to_bottom(item_to_be_printed->next);
-    }
+void Cards::print_from_top_to_bottom(std::ostream& s) {
 }
-*/
+
+void Cards::print_from_bottom_to_top(std::ostream& s) {
+}
+
+bool Cards::top_to_bottom() {
+    if (top_ == nullptr ) {
+        return false;
+    }
+
+    Card_data* item_to_be_removed = bottom_;
+
+    int& removed_id = item_to_be_removed->data;
+
+    Card_data* new_item = new Card_data{removed_id, nullptr};
+
+    // Remove
+    if (top_ == bottom_) {
+        top_ = nullptr;
+        bottom_ = nullptr;
+    } else {
+        bottom_ = nullptr;
+    }
+
+    delete item_to_be_removed;
+
+    // Add
+    if (top_ == nullptr) {
+        top_ = new_item;
+        bottom_ = new_item;
+    } else {
+        top_->next = new_item;
+        top_ = new_item;
+    }
+
+    return true;
+}
+
+bool Cards::bottom_to_top() {
+    if (top_ == nullptr ) {
+        return false;
+    }
+    Card_data* item_to_be_removed = bottom_;
+
+    int& removed_id = item_to_be_removed->data;
+
+    Card_data* new_item = new Card_data{removed_id, nullptr};
+
+    // Remove
+    if (top_ == bottom_) {
+        top_ = nullptr;
+        bottom_ = nullptr;
+    } else {
+        bottom_ = nullptr;
+    }
+
+    delete item_to_be_removed;
+
+    // Add
+    if (top_ == nullptr) {
+        top_ = new_item;
+        bottom_ = new_item;
+    } else {
+        top_->next = new_item;
+        top_ = new_item;
+    }
+
+    return true;
+}
