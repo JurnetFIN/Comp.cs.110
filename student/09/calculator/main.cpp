@@ -4,6 +4,7 @@
 #include <sstream>  // for implementing function string_to_double
 #include <string>
 #include <vector>
+#include <locale>
 
 using namespace std;
 
@@ -54,6 +55,9 @@ const vector<Command> COMMANDS = {
     {"DECREASE", 2, false, subtraction},
     {"MULTIPLY", 2, false, multiplication},
     {"DIVIDE", 2, false, division},
+    {"^", 2, false, power},
+    {"POWER", 2, false, power},
+    {"EXP", 2, false, power},
     {"STOP", 0, true, nullptr},
     {"QUIT", 0, true, nullptr},
     {"EXIT", 0, true, nullptr},
@@ -88,7 +92,39 @@ int main() {
         string command_to_be_executed = pieces.at(0);
 
         // TODO: Implement command execution here!
+        locale loc;
+        string command;
+        for (string::size_type i=0; i<command_to_be_executed.length(); ++i)
+            command.push_back(toupper(command_to_be_executed[i],loc));
 
+        bool command_success = false;
+        for (unsigned int i=0; i<COMMANDS.size(); i++) {
+            if (command == COMMANDS[i].str) {
+
+                command_success = true;
+
+                if ((COMMANDS[i].is_exit == true) and (pieces.size() == 1)) {
+                    cout << "Thanks and see you later!" << endl;
+                    return EXIT_SUCCESS; }
+
+                if(pieces.size() != 3){
+                    cout << "Error: wrong number of parameters." << endl;
+                    continue; }
+
+                try {
+                    double param1 = stod(pieces.at(1));
+                    double param2 = stod(pieces.at(2));
+
+                    cout << COMMANDS[i].action(param1, param2) << endl;
+                }
+                catch (exception &err) {
+                    cout << "Error: a non-number operand."  << endl;
+                    continue;
+                }
+            }
+        }
+        if (command_success == false)
+            cout << "Error: unknown command." << endl;
     }
 }
 
