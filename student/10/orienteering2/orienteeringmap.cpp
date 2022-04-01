@@ -188,7 +188,7 @@ void OrienteeringMap::greatest_rise(const std::string& point_name) const {
 
     // Tulostetaan tulokset
     cout << "Greatest rise after point " << point_name << ", "
-         << highest << " meters, is on route(s)" << endl;
+         << highest << " meters, is on route(s):" << endl;
 
     for(size_t i=0; i<list_of_rises[highest].size(); i++)
         cout << " - " << list_of_rises[highest][i] << endl;
