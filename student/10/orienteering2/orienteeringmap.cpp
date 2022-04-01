@@ -29,10 +29,10 @@ void OrienteeringMap::add_point(string name, int x, int y, int height, char mark
         return;
 
     // Lisataan rasti mapille, jos se ei ole olemassa
-    if (points_.find(marker) == points_.end()) {
+    if (points_.find(name) == points_.end()) {
         shared_ptr<Point> new_point(new Point{name, x, y, height, marker});
 
-        points_.insert(std::pair<char, shared_ptr<Point>>(marker, new_point));
+        points_.insert(pair<string, shared_ptr<Point>>(name, new_point));
     }
 };
 
@@ -127,7 +127,7 @@ void OrienteeringMap::print_routes() const {
 void OrienteeringMap::print_points() const {
     cout << "Points:" << endl;
     for (auto& p: points_) {
-        cout << " - " << p.second->name << " : " << p.first << endl;
+        cout << " - " << p.second->name << " : " << p.second->marker << endl;
     }
 };
 

@@ -73,7 +73,7 @@ private:
     int width_;
     int height_;
 
-    std::map<char, std::shared_ptr<Point>> points_;
+    std::map<std::string, std::shared_ptr<Point>> points_;
     std::map<std::string, std::shared_ptr<Route>> routes_;
 };
 
