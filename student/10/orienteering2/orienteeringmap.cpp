@@ -137,7 +137,7 @@ void OrienteeringMap::print_route(const std::string& name) const {
 
     if (routes_.find(name) == routes_.end()) {
         // Error
-        cout << "Error: Route named " << name << "can't be found" << endl;
+        cout << "Error: Route named " << name << " can't be found" << endl;
         return;
     }
 
@@ -147,7 +147,12 @@ void OrienteeringMap::print_route(const std::string& name) const {
 // Prints the given route's combined length,
 // the length is counted as a sum of the distances of adjacent points.
 void OrienteeringMap::route_length(const std::string& name) const {
-
+    if (routes_.find(name) == routes_.end()) {
+        // Error
+        cout << "Error: Route named " << name << " can't be found" << endl;
+        return;
+    }
+    routes_.at(name)->route_length(name);
 };
 
 // Finds and prints the highest rise in any of the routes after the given

@@ -24,9 +24,14 @@ public:
     // Destructor
     ~Route();
 
+    // Yhdistetaan reitin rastit
     void connect_route(shared_ptr<Point>, shared_ptr<Point>);
 
+    // Tulostetaan reitin rastit
     void print_route();
+
+    // Lasketaan reitin pituus
+    void route_length(string name);
 
 private:
     // A single route, i.e. list of points
