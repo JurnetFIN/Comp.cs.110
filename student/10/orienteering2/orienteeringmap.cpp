@@ -158,5 +158,5 @@ void OrienteeringMap::route_length(const std::string& name) const {
 // Finds and prints the highest rise in any of the routes after the given
 // point.
 void OrienteeringMap::greatest_rise(const std::string& point_name) const {
-
+    cout << point_name << endl;
 };
