@@ -158,5 +158,38 @@ void OrienteeringMap::route_length(const std::string& name) const {
 // Finds and prints the highest rise in any of the routes after the given
 // point.
 void OrienteeringMap::greatest_rise(const std::string& point_name) const {
-    cout << point_name << endl;
+    map<int, vector<string>> list_of_rises;
+    vector<string> empty_vector;
+
+    // Etsitaan onko piste olemassa
+    if (points_.find(point_name) == points_.end()) {
+        cout << "Error: Point named " << point_name << " can't be found" << endl;
+        return;
+    }
+
+    // Lasketaan suurin nousu
+    for(auto& r: routes_) {
+        if(r.second->contains(point_name)) {
+            int rise = r.second->max_rise(point_name);
+
+            if(list_of_rises.find(rise) == list_of_rises.end())
+                list_of_rises.insert(pair<int, vector<string>>(rise, empty_vector));
+
+            list_of_rises[rise].push_back(r.first);
+        }
+    }
+
+    // Etsitaan suurin nousu
+    int highest = list_of_rises.rbegin()->first;
+    if(highest == 0) {
+        cout << "No route rises after point " << point_name << endl;
+        return;
+    }
+
+    // Tulostetaan tulokset
+    cout << "Greatest rise after point " << point_name << ", "
+         << highest << " meters, is on route(s)" << endl;
+
+    for(size_t i=0; i<list_of_rises[highest].size(); i++)
+        cout << " - " << list_of_rises[highest][i] << endl;
 };

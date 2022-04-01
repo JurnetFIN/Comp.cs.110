@@ -17,8 +17,7 @@ struct Point {
 class Route
 {
 public:
-    // Constructor that initializes the attribute cycle_.
-    // (The other attibutes are initialized in the private part below.)
+    // Constructor
     Route();
 
     // Destructor
@@ -31,7 +30,13 @@ public:
     void print_route();
 
     // Lasketaan reitin pituus
-    void route_length(string name);
+    void route_length(string);
+
+    // Tarkistetaan onko piste reitilla
+    bool contains(string);
+
+    // Lasketaan suurin nousu
+    int max_rise(string);
 
 private:
     // A single route, i.e. list of points
