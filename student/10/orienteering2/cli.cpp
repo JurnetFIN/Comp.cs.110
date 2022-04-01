@@ -2,7 +2,9 @@
 #include <iostream>
 #include <algorithm>
 
-Cli::Cli(std::shared_ptr<OrienteeringMap> db):
+using namespace std;
+
+Cli::Cli(shared_ptr<OrienteeringMap> db):
     database_(db),recognized_(nullptr)
 {
 }
@@ -14,9 +16,9 @@ bool Cli::exec_prompt()
     recognized_ = nullptr;
 
     // Query for the command
-    std::string line;
-    std::cout << PROMPT;
-    std::getline(std::cin, line);
+    string line;
+    cout << PROMPT;
+    getline(std::cin, line);
 
     // Get the args from input
     parse_command(line);
@@ -28,7 +30,7 @@ bool Cli::exec_prompt()
     switch( check_command_type() )
     {
     case CommandTypes::WRONG_PARAMETERS:
-        std::cout << "Error: Wrong amount of parameters" << std::endl;
+        cout << "Error: Wrong amount of parameters" << std::endl;
         return true;
     case CommandTypes::QUIT:
         return false;
@@ -52,9 +54,9 @@ bool Cli::exec_prompt()
     return true;
 }
 
-void Cli::parse_command(const std::string &line)
+void Cli::parse_command(const string &line)
 {
-    std::string tmp = line;
+    string tmp = line;
     size_t pos = 0;
 
     if( line.empty() )
@@ -85,7 +87,7 @@ void Cli::parse_command(const std::string &line)
                 args_.push_back(tmp.substr(0, pos));
             }
         }
-        if( pos == std::string::npos )
+        if( pos == string::npos )
         {
             break;
         }
@@ -101,8 +103,8 @@ int Cli::check_command_type()
     }
 
     // Remove the case sensitivity
-    std::string base = args_[0];
-    std::transform(base.begin(), base.end(),base.begin(), ::toupper);
+    string base = args_[0];
+    transform(base.begin(), base.end(),base.begin(), ::toupper);
 
     // Loop through the commands and find the correct one
     for( auto &i : COMMANDS )

@@ -1,14 +1,21 @@
+/* Suunnistus
+ *
+ *
+ */
 #include "orienteeringmap.hh"
 #include "parser.hh"
 #include "cli.hh"
+#include "route.hh"
 #include <iostream>
+
+using namespace std;
 
 int main()
 {
-    std::shared_ptr<OrienteeringMap> routes(new OrienteeringMap);
-    std::cout << "Input> ";
-    std::string input;
-    getline(std::cin, input);
+    shared_ptr<OrienteeringMap> routes(new OrienteeringMap);
+    cout << "Input> ";
+    string input;
+    getline(cin, input);
     if( not read_input_from_file(input, routes) )
     {
         return EXIT_FAILURE;

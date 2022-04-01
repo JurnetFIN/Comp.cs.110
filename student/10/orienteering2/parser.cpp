@@ -5,15 +5,17 @@
 #include <vector>
 #include <algorithm>
 
-const std::string ERROR_IN_FORMAT = "Error: Incorrect line in input file";
+using namespace std;
 
-bool read_size(std::ifstream &file, std::shared_ptr<OrienteeringMap> routes);
-bool read_points(std::ifstream &file, std::shared_ptr<OrienteeringMap> routes);
-bool read_routes(std::ifstream &file, std::shared_ptr<OrienteeringMap> routes);
-void split_line(std::vector<std::string>& res, std::string& line);
-bool is_number(std::string& str);
+const string ERROR_IN_FORMAT = "Error: Incorrect line in input file";
 
-void split_line(std::vector<std::string>& result, std::string& line)
+bool read_size(ifstream &file, shared_ptr<OrienteeringMap> routes);
+bool read_points(ifstream &file, shared_ptr<OrienteeringMap> routes);
+bool read_routes(ifstream &file, shared_ptr<OrienteeringMap> routes);
+void split_line(vector<string>& res, string& line);
+bool is_number(string& str);
+
+void split_line(vector<string>& result, string& line)
 {
     result.push_back("");
     for ( char c : line )
@@ -29,20 +31,21 @@ void split_line(std::vector<std::string>& result, std::string& line)
     }
 }
 
-bool is_number(std::string& str)
+bool is_number(string& str)
 {
-    return std::any_of(str.begin(), str.end(), ::isdigit);
+    return any_of(str.begin(), str.end(), ::isdigit);
 }
 
-bool read_size(std::ifstream& file, std::shared_ptr<OrienteeringMap> routes)
+bool read_size(ifstream& file, shared_ptr<OrienteeringMap> routes)
 {
-    std::string line;
+    string line;
     getline(file, line);
-    std::vector<std::string> temp;
+    vector<string> temp;
     split_line(temp, line);
     if( temp.size() == 2 and is_number(temp.at(0)) and is_number(temp.at(1)) )
     {
-        routes->set_map_size(std::stoi(temp.at(0)), std::stoi(temp.at(1)));
+        routes->set_map_size(stoi(temp.at(0)), stoi(temp.at(1)));
+
         return true;
     }
     else
@@ -52,10 +55,10 @@ bool read_size(std::ifstream& file, std::shared_ptr<OrienteeringMap> routes)
     }
 }
 
-bool read_points( std::ifstream& file, std::shared_ptr<OrienteeringMap> routes)
+bool read_points(ifstream& file, shared_ptr<OrienteeringMap> routes)
 {
-    std::vector<std::string> temps;
-    std::string line;
+    vector<string> temps;
+    string line;
     while( getline( file, line) )
     {
         if ( line == "ROUTES" )
@@ -70,25 +73,25 @@ bool read_points( std::ifstream& file, std::shared_ptr<OrienteeringMap> routes)
              or not is_number(temps.at(3))
              or temps.at(4).size() != 1 )
         {
-            std::cout << ERROR_IN_FORMAT << std::endl;
+            cout << ERROR_IN_FORMAT << std::endl;
             return false;
         }
         else
         {
             routes->add_point(temps.at(0),
-                              std::stoi(temps.at(1)),
-                              std::stoi(temps.at(2)),
-                              std::stoi(temps.at(3)),
+                              stoi(temps.at(1)),
+                              stoi(temps.at(2)),
+                              stoi(temps.at(3)),
                               temps.at(4).at(0));
         }
     }
     return true;
 }
 
-bool read_routes(std::ifstream& file, std::shared_ptr<OrienteeringMap> routes)
+bool read_routes(ifstream& file, shared_ptr<OrienteeringMap> routes)
 {
-    std::vector<std::string> temp;
-    std::string line, route;
+    vector<string> temp;
+    string line, route;
     while( getline(file, line) )
     {
         temp.clear();
@@ -115,13 +118,13 @@ bool read_routes(std::ifstream& file, std::shared_ptr<OrienteeringMap> routes)
     return true;
 }
 
-bool read_input_from_file(std::string file,
-                          std::shared_ptr<OrienteeringMap> routes)
+bool read_input_from_file(string file,
+                          shared_ptr<OrienteeringMap> routes)
 {
-    std::ifstream input(file);
+    ifstream input(file);
     if( not input )
     {
-        std::cout << "Error: Can't read file" << std::endl;
+        cout << "Error: Can't read file" << endl;
         return false;
     }
     return (read_size(input, routes) and

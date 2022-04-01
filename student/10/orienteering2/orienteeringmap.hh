@@ -15,6 +15,9 @@
 #define ORIENTEERINGMAP_HH
 
 #include <string>
+#include <map>
+#include <memory>
+#include <route.hh>
 
 class OrienteeringMap
 {
@@ -67,6 +70,11 @@ private:
     // At least you need a datastructure for points or routes or for both,
     // containing Point* or Route* objects (pointers).
     // Good candidates for such structures are STL maps or vectors.
+    int width_;
+    int height_;
+
+    std::map<char, std::shared_ptr<Point>> points_;
+    std::map<std::string, std::shared_ptr<Route>> routes_;
 };
 
 #endif // ORIENTEERINGMAP_HH
