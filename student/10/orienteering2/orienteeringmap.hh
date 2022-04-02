@@ -2,6 +2,7 @@
 #############################################################################
 # COMP.CS.110 Ohjelmointi 2: Rakenteet / Programming 2: Structures          #
 # Project3: Suunnistus / Orienteering                                       #
+# Student: Juliusz Kotelba // 150586775                                     #
 # File: orienteeringmap                                                     #
 # Description: Datastructure that represents an orienteering map and        #
 #        handles information of points and routes                           #

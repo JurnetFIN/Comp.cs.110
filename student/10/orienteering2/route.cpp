@@ -23,15 +23,15 @@ void Route::connect_route(shared_ptr<Point> from, shared_ptr<Point> to) {
         first_ = new_origin;
     }
 
-    // Lisataan uusi rasti reitille
-    shared_ptr<RoutePoints> new_destination(new RoutePoints{to, nullptr});
-
     shared_ptr<RoutePoints> point_ptr = first_;
 
-    // Lisataan rasti reitin loppuun
+    // Lisataan rasti reitin loppupaahan
     while (point_ptr->next != nullptr) {
         point_ptr = point_ptr->next;
     }
+
+    // Lisataan uusi rasti reitille
+    shared_ptr<RoutePoints> new_destination(new RoutePoints{to, nullptr});
 
     point_ptr->next = new_destination;
 }

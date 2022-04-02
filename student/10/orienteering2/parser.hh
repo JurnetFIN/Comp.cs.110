@@ -2,6 +2,7 @@
 #############################################################################
 # COMP.CS.110 Ohjelmointi 2: Rakenteet / Programming 2: Structures          #
 # Project3: Suunnistus / Orienteering                                       #
+# Student: Juliusz Kotelba // 150586775                                     #
 # File: parser.hh                                                           #
 # Description: Module that parses the input file into an OrienteeringMap    #
 #        object.                                                            #

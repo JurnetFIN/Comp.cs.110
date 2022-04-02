@@ -1,3 +1,14 @@
+/*
+#############################################################################
+# COMP.CS.110 Ohjelmointi 2: Rakenteet / Programming 2: Structures          #
+# Project3: Suunnistus / Orienteering                                       #
+# Student: Juliusz Kotelba // 150586775                                     #
+# File: route                                                               #
+# Description: Luokka jossa on tallennetut reitit                           #
+#              ja sen pisteet jarjestyksessa                                #
+#############################################################################
+*/
+
 #ifndef ROUTE_H
 #define ROUTE_H
 

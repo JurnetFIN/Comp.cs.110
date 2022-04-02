@@ -48,8 +48,10 @@ bool OrienteeringMap::connect_route(string from,
                    string route_name) {
 
     // Jos jompikumpi rasti ei ole olemassa -> Virhe
-    if ((points_.find(from) == points_.end()) or (points_.find(to) == points_.end()))
+    if ((points_.find(from) == points_.end()) or (points_.find(to) == points_.end())) {
+        cout << "Error: Points specified in route can't be found" << endl;
         return false;
+    }
 
     // Lisataan mahdollinen uusi reitti
     if (routes_.find(route_name) == routes_.end()) {
@@ -96,7 +98,7 @@ void OrienteeringMap::print_map() const {
         cout << prefix  << y;
 
         for(int x=1; x <= width_; x++) {
-            cout << "  " << points[x-1][y-1];
+            cout << "  " << points.at(x-1).at(y-1);
         }
         cout << endl;
     }
@@ -162,7 +164,7 @@ void OrienteeringMap::greatest_rise(const std::string& point_name) const {
             if(list.find(rise) == list.end())
                 list.insert(pair<int, vector<string>>(rise, empty_vector));
 
-            list[rise].push_back(r.first);
+            list.at(rise).push_back(r.first);
         }
     }
 
@@ -177,6 +179,6 @@ void OrienteeringMap::greatest_rise(const std::string& point_name) const {
     cout << "Greatest rise after point " << point_name << ", "
          << highest << " meters, is on route(s):" << endl;
 
-    for(size_t i=0; i<list[highest].size(); i++)
-        cout << " - " << list[highest][i] << endl;
+    for(size_t i=0; i<list.at(highest).size(); i++)
+        cout << " - " << list.at(highest).at(i) << endl;
 };
