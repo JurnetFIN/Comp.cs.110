@@ -20,7 +20,7 @@ void OrienteeringMap::set_map_size(int width, int height) {
 
 // Adds a new point in the map, with the given name, position (x and y
 // coordinates), height and marker.
-void OrienteeringMap::add_point(string name, int x, int y, int height, char marker) {
+void OrienteeringMap::add_point(string name, int x, int y, int height, char marker){
 
     if ((x < 0) or (x > width_))
         return;
@@ -47,66 +47,53 @@ bool OrienteeringMap::connect_route(string from,
                    string to,
                    string route_name) {
 
-    // Haetaan muuttujat
-    shared_ptr<Point> from_ptr = nullptr;
-    shared_ptr<Point> to_ptr = nullptr;
-
-    // Tarkistetaan onko molemmat rastit olemassa
-    for(auto& p: points_) {
-        if (p.second->name == from)
-            from_ptr = p.second;
-
-        if (p.second->name == to)
-            to_ptr = p.second;
-    }
-
-    // Jos jompikumpi ei ole olemassa -> Virhe
-    if ((from_ptr == nullptr) or (to_ptr == nullptr))
+    // Jos jompikumpi rasti ei ole olemassa -> Virhe
+    if ((points_.find(from) == points_.end()) or (points_.find(to) == points_.end()))
         return false;
 
-    // Lisataan reitti
+    // Lisataan mahdollinen uusi reitti
     if (routes_.find(route_name) == routes_.end()) {
         shared_ptr<Route> new_route(new Route());
         routes_.insert(pair<string, shared_ptr<Route>>(route_name, new_route));
     }
 
-    routes_.at(route_name)->connect_route(from_ptr, to_ptr);
+    // Haetaan rastit ja lisataan niiden valille reitti
+    routes_.at(route_name)->connect_route(points_.find(from)->second,
+                                          points_.find(to)->second);
 
     return true;
 }
 
 // Prints the map.
 void OrienteeringMap::print_map() const {
+
+    vector<string> points;
+    string prefix = "";
+    string chars = "";
+
     // Muodostetaan "kartta", jossa on vain pisteita
-    vector<vector<char>> points;
+    chars.append(height_, '.');
     for(int x=1; x <=width_; x++) {
-        vector<char> chars;
-        for(int y=1; y <=height_; y++) {
-            chars.push_back('.');
-        }
         points.push_back(chars);
     }
 
-    // Korvataan pisteet rasteilla
+    // Korvataan tietyt pisteet rasteilla
     for(auto& p: points_)
         points.at((p.second->x)-1).at((p.second->y)-1) = p.second->marker;
 
     // Tulostetaan kartta
     // Ensin tulostetaan ylapalkki
     cout << " ";
-    string prefix = "  ";
     for(int x=1; x <=width_; x++) {
-        if(x>=10)
-            prefix = " ";
+        prefix = (x<10)? "  " : " ";
         cout << prefix << x;
     }
     cout << endl;
 
     // Sen jalkeen tulostetaan rivi kerrallaan
     for(int y=1; y <= height_; y++) {
-        if(y>=10)
-            prefix = "";
-        cout << prefix << y;
+        prefix = (y<10)? " " : "";
+        cout << prefix  << y;
 
         for(int x=1; x <= width_; x++) {
             cout << "  " << points[x-1][y-1];
@@ -158,7 +145,7 @@ void OrienteeringMap::route_length(const std::string& name) const {
 // Finds and prints the highest rise in any of the routes after the given
 // point.
 void OrienteeringMap::greatest_rise(const std::string& point_name) const {
-    map<int, vector<string>> list_of_rises;
+    map<int, vector<string>> list;
     vector<string> empty_vector;
 
     // Etsitaan onko piste olemassa
@@ -172,15 +159,15 @@ void OrienteeringMap::greatest_rise(const std::string& point_name) const {
         if(r.second->contains(point_name)) {
             int rise = r.second->max_rise(point_name);
 
-            if(list_of_rises.find(rise) == list_of_rises.end())
-                list_of_rises.insert(pair<int, vector<string>>(rise, empty_vector));
+            if(list.find(rise) == list.end())
+                list.insert(pair<int, vector<string>>(rise, empty_vector));
 
-            list_of_rises[rise].push_back(r.first);
+            list[rise].push_back(r.first);
         }
     }
 
     // Etsitaan suurin nousu
-    int highest = list_of_rises.rbegin()->first;
+    int highest = list.rbegin()->first;
     if(highest == 0) {
         cout << "No route rises after point " << point_name << endl;
         return;
@@ -190,6 +177,6 @@ void OrienteeringMap::greatest_rise(const std::string& point_name) const {
     cout << "Greatest rise after point " << point_name << ", "
          << highest << " meters, is on route(s):" << endl;
 
-    for(size_t i=0; i<list_of_rises[highest].size(); i++)
-        cout << " - " << list_of_rises[highest][i] << endl;
+    for(size_t i=0; i<list[highest].size(); i++)
+        cout << " - " << list[highest][i] << endl;
 };

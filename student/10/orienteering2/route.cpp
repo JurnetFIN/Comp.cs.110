@@ -125,17 +125,13 @@ int Route::max_rise(string point_name) {
     int start_height = point_ptr->data->height;
 
     // Suoritaan silmukka niin kauan kunnes aletaan laskea alas
-    while(point_ptr != nullptr) {
-        rise = point_ptr->data->height - start_height;
-
-        // Tapaus missa reitin korkein piste on myos reitin virhe
-        if(point_ptr->next == nullptr)
-            break;
-
+    while(point_ptr->next != nullptr){
         // Jos aletaan menemaan alaspain lopetetaan silmukka
         if(point_ptr->next->data->height < point_ptr->data->height)
             break;
 
+        // Lasketaan nousu
+        rise = point_ptr->next->data->height - start_height;
         point_ptr = point_ptr->next;
     }
 
