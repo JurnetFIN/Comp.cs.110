@@ -11,12 +11,12 @@ Route::~Route() {
 }
 
 /**
- * Yhdistetaan reitin rastit
+ * Connecting points to create route
  * @param from; mista_rastisra
  * @param to; mihin_rastiin
  */
 void Route::connect_route(shared_ptr<Point> from, shared_ptr<Point> to) {
-    // Lisataan reitti, jos sita ei ole olemassa
+    // Adding new route if it not exist already
     if (first_ == nullptr) {
         shared_ptr<RoutePoints> new_origin(new RoutePoints{from, nullptr});
 
@@ -25,30 +25,30 @@ void Route::connect_route(shared_ptr<Point> from, shared_ptr<Point> to) {
 
     shared_ptr<RoutePoints> point_ptr = first_;
 
-    // Lisataan rasti reitin loppupaahan
+    // Adding another point to route end
     while (point_ptr->next != nullptr) {
         point_ptr = point_ptr->next;
     }
 
-    // Lisataan uusi rasti reitille
+    // Adding new point to route
     shared_ptr<RoutePoints> new_destination(new RoutePoints{to, nullptr});
 
     point_ptr->next = new_destination;
 }
 
 /**
- * Tulostetaan reitin rastit
+ * Printing points in given route
  */
 void Route::print_route() {
     if (first_ != nullptr) {
-        // Haetaan ensimmainen rasti
+        // Searching for first point
         shared_ptr<RoutePoints> point_ptr = first_;
 
-        // Tulosteetaan ensimmainen rasti
+        // Printing first point
         cout << point_ptr->data->name << std::endl;
         point_ptr = point_ptr->next;
 
-        // Tulostetaan muut rastit
+        // Printing rest points
         while(point_ptr != nullptr) {
             cout << " -> " << point_ptr->data->name << std::endl;
             point_ptr = point_ptr->next;
@@ -57,23 +57,23 @@ void Route::print_route() {
 }
 
 /**
- * Lasketaan reitin pituus
+ * Counting route length
  * @param name
  */
 void Route::route_length(string name) {
-    // Haetaan ensimmainen piste
+    // Searching for first point
     shared_ptr<RoutePoints> point_ptr = first_;
     double pituus = 0;
 
     int from_x = point_ptr->data->x;
     int from_y = point_ptr->data->y;
 
-    // Kaydaan lapi jokainen piste
+    // Counting route length
     while(point_ptr->next != nullptr) {
         int to_x = point_ptr->next->data->x;
         int to_y = point_ptr->next->data->y;
 
-        // Lasketaan kaavan avulla kahden rastin etaisyys
+        // Counting length between two points with help of equation
         pituus += sqrt(pow(from_x-to_x, 2)+pow(from_y-to_y, 2));
 
         from_x = to_x;
@@ -81,21 +81,21 @@ void Route::route_length(string name) {
         point_ptr = point_ptr->next;
     }
 
-    // Tulostetaan reitin pituus
+    // Printing length of route
     cout << setprecision(2) << "Route " << name <<" length was " << pituus << endl;
 }
 
 /**
- * Tutkitaan onko piste olemassa reitilla
- * Palauttaa true, jos on, muulloin false
+ * Checking if point is on given route
+ * Return true if there is, otherwise false
  * @param point_name
  * @return bool
  */
 bool Route::contains(string point_name) {
-    // Haetaan ensimmainen piste
+    // Searching for first point on route
     shared_ptr<RoutePoints> point_ptr = first_;
 
-    // Tutkitaan onko piste olemassa
+    // Cheching if given point exist
     while(point_ptr != nullptr) {
         if(point_ptr->data->name == point_name) {
             return true;
@@ -106,15 +106,15 @@ bool Route::contains(string point_name) {
 }
 
 /**
- * Lasketaan suurin nousu
+ * Counting max rise
  * @param point_name
  * @return suurin_nousu
  */
 int Route::max_rise(string point_name) {
-    // Haetaan ensimmainen piste
+    // Searching for first point on route
     shared_ptr<RoutePoints> point_ptr = first_;
 
-    // Haetaan rasti, josta aletaan laskea nousu
+    // Searching point from we want to count rise
     while(point_ptr != nullptr) {
         if(point_ptr->data->name == point_name)
             break;
@@ -124,13 +124,13 @@ int Route::max_rise(string point_name) {
     int rise = 0;
     int start_height = point_ptr->data->height;
 
-    // Suoritaan silmukka niin kauan kunnes aletaan laskea alas
+    // Counting rise as long as there isn't descent
     while(point_ptr->next != nullptr){
-        // Jos aletaan menemaan alaspain lopetetaan silmukka
+        // If there is start of descent -> break
         if(point_ptr->next->data->height < point_ptr->data->height)
             break;
 
-        // Lasketaan nousu
+        // Counting rise
         rise = point_ptr->next->data->height - start_height;
         point_ptr = point_ptr->next;
     }
