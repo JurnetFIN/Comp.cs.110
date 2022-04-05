@@ -1,6 +1,5 @@
 #include "bird.hh"
 
-
 Bird::Bird(): Animal("Flap flap")
 {
 
