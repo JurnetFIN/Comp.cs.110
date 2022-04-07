@@ -20,6 +20,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->spinBoxE->setMinimum(0);
     ui->spinBoxE->setMaximum(5);
+
+    connect(ui->spinBoxN, &QSpinBox::valueChanged, this, &MainWindow::on_countPushButton_clicked);
+    connect(ui->spinBoxG, &QSpinBox::valueChanged, this, &MainWindow::on_countPushButton_clicked);
+    connect(ui->spinBoxP, &QSpinBox::valueChanged, this, &MainWindow::on_countPushButton_clicked);
+    connect(ui->spinBoxE, &QSpinBox::valueChanged, this, &MainWindow::on_countPushButton_clicked);
+
+    on_countPushButton_clicked();
 }
 
 MainWindow::~MainWindow()
@@ -35,6 +42,8 @@ void MainWindow::on_countPushButton_clicked()
                                   ui->spinBoxE->value());
 
     QString g = QString::number(grade);
-    ui->textBrowser->setPlainText(g);
+    QString text = "Total grade: ";
+    text.push_back(g);
+    ui->textBrowser->setPlainText(text);
 }
 
