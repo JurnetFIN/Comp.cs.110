@@ -3,7 +3,6 @@
 #include "iostream"
 #include "QString"
 #include "fstream"
-#include "boost/algorithm/string.hpp"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
