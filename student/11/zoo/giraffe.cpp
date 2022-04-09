@@ -4,7 +4,7 @@ Giraffe::Giraffe(): Mammal()
 {
 }
 
-void Giraffe::suckle(std::ostream &output) const
+void Giraffe::make_noise(std::ostream &output) const
 {
     output << "Ori ori ori!" << std::endl;
 }
