@@ -4,8 +4,8 @@ int main()
 {
     int x = 1;
     int y = 1;
-    printf("   x   1   2   3   4   5   6   7   8   9  10\n");
-    for(x=1; x<=10; ++x) {
+    printf("   x   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15\n");
+    for(x=1; x<=15; ++x) {
 
         if(x<10)
             printf("   ");
@@ -16,7 +16,7 @@ int main()
 
         printf("%d", x);
 
-        for(y=1; y<=10; ++y) {
+        for(y=1; y<=15; ++y) {
 
             if(x*y<10)
                 printf("   ");
