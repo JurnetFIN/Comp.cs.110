@@ -12,9 +12,10 @@ int main()
         } else if (i % 5 == 0) {
             continue;
         } else {
+            if (i != 1)
+                printf(" ");
             printf("%d", i);
         }
-        printf(" ");
     }
     printf("\n");
     return 0;
