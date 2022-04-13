@@ -9,10 +9,7 @@ int main(int argc, char *argv[])
         int end = atoi(argv[2]);
         int i;
         for(i=start; i<=end; i++) {
-            printf("%d", i);
-            printf(": ");
-            printf("%c", i);
-            printf("\n");
+            printf("%d: %c\n", i, i);
         }
     }
     return 0;
