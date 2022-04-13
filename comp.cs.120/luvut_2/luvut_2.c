@@ -23,6 +23,8 @@ int main(int argc, char *argv[])
         }
 
     }
-    printf("\n");
+    if(prefix == 'T')
+        printf("\n");
+
     return 0;
 }
