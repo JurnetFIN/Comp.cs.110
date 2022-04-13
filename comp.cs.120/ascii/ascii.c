@@ -11,8 +11,7 @@ int main(int argc, char *argv[])
         for(i=start; i<=end; i++) {
             printf("%d", i);
             printf(": ");
-            if((i > 32) && (i <= 127))
-                printf("%c", i);
+            printf("%c", i);
             printf("\n");
         }
     }
