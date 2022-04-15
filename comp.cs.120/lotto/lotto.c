@@ -24,7 +24,8 @@ int main(int argc, char *argv[])
     }
     printf("\n");
 
-    int k = 0;
+    int k;
+    k = 0;
     for(i = 0; i<7; i++) {
         for(j = 0; j<7; j++) {
             if(lottorivi[i] == voittorivi[j]) {
