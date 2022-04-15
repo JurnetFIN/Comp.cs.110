@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     precision = atoi(argv[1]);
     for(i = 2; i<argc; i++) {
         double juuri = atof(argv[i]);
-        juuri = sqrtf(juuri);
+        juuri = sqrt(juuri);
         printf("sqrt(%*.*f) = %*.*f\n", 1, precision, atof(argv[i]), 1, precision, juuri);
     }
     return 0;
