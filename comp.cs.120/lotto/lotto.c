@@ -7,8 +7,7 @@ int main(int argc, char *argv[])
     int voittorivi[7];
     int lottorivi[7];
     int oikein[7];
-    int i = argc;
-    int j;
+    int i, j, k;
 
     printf("Voittorivi:");
     for(i = 0; i<7; i++) {
@@ -24,7 +23,6 @@ int main(int argc, char *argv[])
     }
     printf("\n");
 
-    int k;
     k = 0;
     for(i = 0; i<7; i++) {
         for(j = 0; j<7; j++) {
