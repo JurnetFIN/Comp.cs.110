@@ -1,43 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main(int argc, char *argv[])
 {
-    int i, j;
-    printf("    ");
+    int i, j, k, pituus;
+    k = atoi(argv[2])*atoi(argv[4]);
+    pituus = 1;
+    while(k > 10) {
+        pituus++;
+        k = k/10;
+    }
+
+    for(i=0; i<=pituus; ++i) {
+        printf(" ");
+    }
 
     for(i=atoi(argv[1]); i<=atoi(argv[2]); ++i) {
-        if(i<10)
-            printf("   ");
-        else if(i<100)
-            printf("  ");
-        else
-            printf(" ");
-
-        printf("%d", i);
+        printf(" %*d", pituus, i);
     }
     printf("\n");
 
     for(j=atoi(argv[3]); j<=atoi(argv[4]); ++j) {
-        if(j<10)
-            printf("   ");
-        else if(j<100)
-            printf("  ");
-        else
-            printf(" ");
-
-        printf("%d", j);
-
+        printf(" %*d", pituus, j);
         for(i=atoi(argv[1]); i<=atoi(argv[2]); ++i) {
-
-            if(i*j<10)
-                printf("   ");
-            else if(i*j<100)
-                printf("  ");
-            else
-                printf(" ");
-
-            printf("%d", i*j);
+            printf(" %*d", pituus, i*j);
         }
         printf("\n");
     }
