@@ -12,15 +12,16 @@ SOURCES += \
     gameboard.cpp \
     main.cpp \
     mainwindow.cpp \
-    numbertile.cpp
+    numbertile.cpp \
+    qgameboard.cpp
 
 HEADERS += \
     gameboard.hh \
     mainwindow.hh \
-    numbertile.hh
+    numbertile.hh \
+    qgameboard.hh
 
-FORMS += \
-    mainwindow.ui
+FORMS +=
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

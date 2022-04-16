@@ -69,8 +69,7 @@ void GameBoard::new_value(bool check_if_empty)
 
 void GameBoard::print() const
 {
-    for( auto y : board_ )
-    {
+    for( auto y : board_) {
         std::cout << std::string(PRINT_WIDTH * SIZE + 1, '-') << std::endl;
         for( auto x : y )
         {

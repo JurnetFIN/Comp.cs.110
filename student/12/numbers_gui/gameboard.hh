@@ -47,6 +47,7 @@ public:
     NumberTile* get_item(Coords coords);
 
 private:
+
     // Internal structure of the game board
     std::vector<std::vector<NumberTile*>> board_;
 
