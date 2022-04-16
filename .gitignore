@@ -3,3 +3,5 @@
 templates/*
 examples/*
 .qmake*
+comp.cs.120/*
+dialog/*
