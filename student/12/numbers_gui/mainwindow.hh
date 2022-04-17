@@ -41,6 +41,7 @@ private:
     void createMoveButtons();
 
     void onStartClicked();
+    void onResetClicked();
 
     void move(Coords dir, int goal);
 
@@ -56,8 +57,16 @@ private:
 
     QSpinBox *seedInput_;
     QSpinBox *goalInput_;
+    QSpinBox *sizeInput_;
 
     QPushButton *start_;
+    QPushButton *reset_;
+
+    QPushButton *upButton_;
+    QPushButton *leftButton_;
+    QPushButton *rightButton_;
+    QPushButton *downButton_;
+
     int goal_;
 };
 
