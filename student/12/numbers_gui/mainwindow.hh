@@ -67,6 +67,9 @@ private:
     QPushButton *rightButton_;
     QPushButton *downButton_;
 
+    bool isPaused_ = false;
+    bool isStarted_ = false;
+
     int goal_;
 };
 

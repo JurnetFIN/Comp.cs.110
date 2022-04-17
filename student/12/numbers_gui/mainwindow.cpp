@@ -144,20 +144,36 @@ void MainWindow::createButtons()
 }
 
 void MainWindow::onStartClicked() {
-    start_->setText("Pause");
+    if (isStarted_ == false) {
+        isStarted_ = true;
+        isPaused_ = false;
 
-    goal_ = (goalInput_->value());
+        goal_ = (goalInput_->value());
 
-    board->init_empty();
-    layout_->insertWidget(1, board->window_);
-    board->fill(seedInput_->value());
-    board->print();
+        board->init_empty();
+        layout_->insertWidget(1, board->window_);
+        board->fill(seedInput_->value());
+        board->print();
 
-    reset_->setEnabled(true);
-    upButton_->setEnabled(true);
-    leftButton_->setEnabled(true);
-    rightButton_->setEnabled(true);
-    downButton_->setEnabled(true);
+        reset_->setEnabled(true);
+    }
+
+    if (isPaused_ == true) {
+        isPaused_ = false;
+        start_->setText("Continue");
+        upButton_->setDisabled(true);
+        leftButton_->setDisabled(true);
+        rightButton_->setDisabled(true);
+        downButton_->setDisabled(true);
+
+    } else {
+        isPaused_ = true;
+        start_->setText("Pause");
+        upButton_->setEnabled(true);
+        leftButton_->setEnabled(true);
+        rightButton_->setEnabled(true);
+        downButton_->setEnabled(true);
+    }
 }
 
 void MainWindow::onResetClicked() {

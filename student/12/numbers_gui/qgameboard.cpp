@@ -17,6 +17,8 @@ QGameBoard::~QGameBoard()
 }
 
 void QGameBoard::print() {
+    delete layout_;
+    layout_ = new QGridLayout(window_);
     for(auto i = 0; i < SIZE; ++i) {
         for(auto j = 0; j < SIZE; ++j)
         {
