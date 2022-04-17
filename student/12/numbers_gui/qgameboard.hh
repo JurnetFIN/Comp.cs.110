@@ -17,6 +17,7 @@ public:
     QWidget *window_;
 
 private:
+
     QGridLayout *layout_;
 
 };

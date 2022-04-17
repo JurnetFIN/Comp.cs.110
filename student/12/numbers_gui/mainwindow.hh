@@ -18,38 +18,47 @@ class QMenu;
 class QMenuBar;
 class QPushButton;
 class QTextEdit;
+class QSpinBox;
 QT_END_NAMESPACE
 
-class MainWindow : public QDialog
+class MainWindow : public QWidget
 {
     Q_OBJECT
 
 public:
-    MainWindow(QGameBoard& board, QWidget* parent = nullptr);
+    MainWindow();
+    ~MainWindow();
 
 private:
+
+    QGameBoard *board;
+
+    QVBoxLayout *layout_;
+
     void createMenu();
+    void readInputs();
     void createButtons();
+    void createMoveButtons();
+
+    void onStartClicked();
+
+    void move(Coords dir, int goal);
+
     //void createGridGroupBox();
     //void createFormGroupBox();
 
     enum { NumGridRows = 3, NumButtons = 4 };
 
     QMenuBar *menuBar;
-    QGroupBox *horizontalGroupBox;
-    QGroupBox *gridGroupBox;
-    QGroupBox *formGroupBox;
-    QTextEdit *smallEditor;
-    QTextEdit *bigEditor;
-    QLabel *labels[NumGridRows];
-    QLineEdit *lineEdits[NumGridRows];
-    QPushButton *buttons[NumButtons];
-    QDialogButtonBox *buttonBox;
 
     QMenu *fileMenu;
     QAction *exitAction;
 
-    QGraphicsView view_;
+    QSpinBox *seedInput_;
+    QSpinBox *goalInput_;
+
+    QPushButton *start_;
+    int goal_;
 };
 
 

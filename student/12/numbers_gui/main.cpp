@@ -1,25 +1,14 @@
-#include <numbertile.hh>
-#include <gameboard.hh>
 #include <mainwindow.hh>
-#include <qgameboard.hh>
 
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
 
-    QGameBoard board;
-    MainWindow w(board);
+    MainWindow window;
 
-    int seed = 100;
-    board.init_empty();
-    board.fill(seed);
-    //int goal = 2048;
+    window.show();
 
-    board.print();
-
-    w.show();
-
-    return a.exec();
+    return app.exec();
 }
