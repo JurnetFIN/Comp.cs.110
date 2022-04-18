@@ -31,7 +31,6 @@ void QGameBoard::print() {
             else
                 label->setText("");
 
-            //label->setFixedWidth(200);
             label->setAlignment(Qt::AlignCenter);
 
             switch (tile->get_value()) {

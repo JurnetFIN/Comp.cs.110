@@ -13,11 +13,9 @@ class QAction;
 class QDialogButtonBox;
 class QGroupBox;
 class QLabel;
-class QLineEdit;
 class QMenu;
 class QMenuBar;
 class QPushButton;
-class QTextEdit;
 class QSpinBox;
 QT_END_NAMESPACE
 
@@ -55,6 +53,8 @@ private:
     QMenu *fileMenu;
     QAction *exitAction;
 
+    QLabel *wonText;
+
     QSpinBox *seedInput_;
     QSpinBox *goalInput_;
     QSpinBox *sizeInput_;
@@ -67,8 +67,8 @@ private:
     QPushButton *rightButton_;
     QPushButton *downButton_;
 
-    bool isPaused_ = false;
-    bool isStarted_ = false;
+    bool isPaused_;
+    bool isStarted_;
 
     int goal_;
 };

@@ -12,12 +12,22 @@ MainWindow::MainWindow()
     : board(new QGameBoard)
 {
     layout_ = new QVBoxLayout;
+    wonText = new QLabel;
+
+    isPaused_ = true;
+    isStarted_ = false;
 
     createMenu();
     readInputs();
     createMoveButtons();
     createButtons();
 
+    board->init_empty();
+
+    wonText->setAlignment(Qt::AlignCenter);
+    layout_->insertWidget(1,wonText);
+
+    layout_->insertWidget(1, board->window_);
     layout_->setMenuBar(menuBar);
 
     setLayout(layout_);
@@ -109,13 +119,19 @@ void MainWindow::createMoveButtons()
 
 void MainWindow::move(Coords dir, int goal) {
     if(board->move(dir, goal)) {
+        onStartClicked();
+        QString text = QString("You reached the goal value of %1, you won!").arg(goal_);
+        wonText->setText(text);
+        wonText->setStyleSheet("QLabel { background: rgb(255,215,0); font: bold; border-radius: 10px; font: 30pt; }");
         board->print();
-        //std::cout << "You reached the goal value of " << goal << "!" << std::endl;
-        //break;
+        return;
     }
     else if(board->is_full()) {
-        //std::cout << "Can't add new tile, you lost!" << std::endl;
-        //break;
+        onStartClicked();
+        start_->setDisabled(true);
+        wonText->setText("Can't add new tile, you lost!");
+        wonText->setStyleSheet("QLabel { background: rgb(219,0,0); font: bold; border-radius: 10px; font: 30pt; }");
+        return;
     }
     board->new_value(false);
     board->print();
@@ -146,37 +162,37 @@ void MainWindow::createButtons()
 void MainWindow::onStartClicked() {
     if (isStarted_ == false) {
         isStarted_ = true;
-        isPaused_ = false;
-
         goal_ = (goalInput_->value());
 
-        board->init_empty();
-        layout_->insertWidget(1, board->window_);
         board->fill(seedInput_->value());
         board->print();
 
         reset_->setEnabled(true);
     }
 
-    if (isPaused_ == true) {
-        isPaused_ = false;
+    if (isPaused_ == false)
         start_->setText("Continue");
-        upButton_->setDisabled(true);
-        leftButton_->setDisabled(true);
-        rightButton_->setDisabled(true);
-        downButton_->setDisabled(true);
-
-    } else {
-        isPaused_ = true;
+    else
         start_->setText("Pause");
-        upButton_->setEnabled(true);
-        leftButton_->setEnabled(true);
-        rightButton_->setEnabled(true);
-        downButton_->setEnabled(true);
-    }
+
+    wonText->setStyleSheet("");
+    wonText->setText("");
+
+    isPaused_ = !isPaused_;
+
+    upButton_->setDisabled(isPaused_);
+    leftButton_->setDisabled(isPaused_);
+    rightButton_->setDisabled(isPaused_);
+    downButton_->setDisabled(isPaused_);
 }
 
 void MainWindow::onResetClicked() {
+    start_->setEnabled(true);
+
+    if (isPaused_ == true)
+        onStartClicked();
+
+    goal_ = (goalInput_->value());
     board->fill(seedInput_->value());
     board->print();
 }
