@@ -30,6 +30,17 @@ void GameBoard::init_empty()
     }
 }
 
+void GameBoard::clear() {
+    for(unsigned int y = 0; y < board_.size(); ++y)
+    {
+        for(unsigned int x = 0; x < board_.at(y).size(); ++x)
+        {
+            delete board_.at(x).at(y);
+            board_.at(x).at(y) = nullptr;
+        }
+    }
+}
+
 void GameBoard::fill(int seed)
 {
     randomEng_.seed(seed);

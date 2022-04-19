@@ -22,6 +22,9 @@ public:
     // Initializes the gameboard with nullptrs.
     void init_empty();
 
+    // Resets gameboard with gameboard with nullptrs.
+    void clear();
+
     // Initializes the random number generator and fills the gameboard
     // with random numbers.
     void fill(int seed);
