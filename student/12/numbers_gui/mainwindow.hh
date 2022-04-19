@@ -40,24 +40,18 @@ private:
 
     void onStartClicked();
     void onResetClicked();
+    void enableButtons();
 
     void move(Coords dir, int goal);
-
-    //void createGridGroupBox();
-    //void createFormGroupBox();
-
-    enum { NumGridRows = 3, NumButtons = 4 };
 
     QMenuBar *menuBar;
 
     QMenu *fileMenu;
-    QAction *exitAction;
 
-    QLabel *wonText;
+    QLabel *infoText;
 
     QSpinBox *seedInput_;
     QSpinBox *goalInput_;
-    QSpinBox *sizeInput_;
 
     QPushButton *start_;
     QPushButton *reset_;

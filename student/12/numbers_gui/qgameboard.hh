@@ -9,15 +9,13 @@
 class QGameBoard: public GameBoard
 {
 public:
-    QGameBoard();
+    QGameBoard(QWidget *parent);
     ~QGameBoard();
 
     void print();
 
-    QWidget *window_;
-
 private:
-
+    QWidget *widget_;
     QGridLayout *layout_;
 
 };

@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 
     MainWindow window;
 
-    window.resize(1080, 720);
+    window.resize(800, 600);
     window.show();
 
     return app.exec();
