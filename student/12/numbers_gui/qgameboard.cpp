@@ -6,26 +6,30 @@
 
 QGameBoard::QGameBoard(QWidget *parent)
 {
-    widget_ = parent;
-    layout_ = nullptr;
+    layout_ = new QGridLayout(parent);
+
+    for(auto i = 0; i < SIZE; ++i) {
+        for(auto j = 0; j < SIZE; ++j)
+        {
+            QLabel *label = new QLabel();
+            layout_->addWidget(label, i, j);
+        }
+    }
 }
 
 QGameBoard::~QGameBoard()
-{
-    delete layout_;
-    delete widget_;
+{ 
 }
 
 void QGameBoard::print() {
-    delete layout_;
-
-    layout_ = new QGridLayout(widget_);
     for(auto i = 0; i < SIZE; ++i) {
         for(auto j = 0; j < SIZE; ++j)
         {
             NumberTile* tile = get_item(std::make_pair(i,j));
 
-            QLabel *label = new QLabel();
+            QLayoutItem* item = layout_->itemAtPosition(i,j);
+            QWidget* widget = item->widget();
+            QLabel* label = dynamic_cast<QLabel*>(widget);
 
             int tileValue = 0;
 
@@ -89,8 +93,7 @@ void QGameBoard::print() {
                 label->setStyleSheet("QLabel { background: rgb(238,228,218); color: rgb(119,110,101); font: bold; border-radius: 10px; font: 40pt; }");
                 break;
             }
-            }
-            layout_->addWidget(label, i, j);
+            }            
         }
     }
 }

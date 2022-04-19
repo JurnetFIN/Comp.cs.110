@@ -15,7 +15,6 @@ public:
     void print();
 
 private:
-    QWidget *widget_;
     QGridLayout *layout_;
 
 };
