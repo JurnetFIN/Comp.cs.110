@@ -28,26 +28,31 @@ public:
     ~MainWindow();
 
 private:
-
+    // Gameboard widget
     QGameBoard *board;
 
+    // Main layout
     QVBoxLayout *layout_;
 
+    // Creates needed labels and buttons
     void createMenu();
     void readInputs();
     void createButtons();
     void createMoveButtons();
 
+    // Pushbutton actions
     void onStartClicked();
     void onResetClicked();
     void enableButtons();
 
+    // Moves the number tiles in the gameboard
     void move(Coords dir, int goal);
 
+    // Menubar
     QMenuBar *menuBar;
-
     QMenu *fileMenu;
 
+    // Needed parameters
     QLabel *infoText;
 
     QSpinBox *seedInput_;
@@ -63,9 +68,7 @@ private:
 
     bool isPaused_;
     bool isStarted_;
-
     int goal_;
 };
-
 
 #endif // MAINWINDOW_HH
