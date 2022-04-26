@@ -1,3 +1,14 @@
+/*
+#############################################################################
+# COMP.CS.110 Ohjelmointi 2: Rakenteet / Programming 2: Structures          #
+# Project4: 2048                                                            #
+# Student: Juliusz Kotelba // 150586775                                     #
+# File: mainwindow.hh                                                       #
+# Description: Luokka, joka kasittelee ikkunaa seka sen olioita.            #
+#              Luokka hallitsee myos pelin kulkua                           #
+#############################################################################
+*/
+
 #ifndef MAINWINDOW_HH
 #define MAINWINDOW_HH
 

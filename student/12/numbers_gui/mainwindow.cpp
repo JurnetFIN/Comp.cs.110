@@ -31,6 +31,7 @@ MainWindow::MainWindow()
 
     // Creating mainwidget
     QWidget *w = new QWidget;
+    setWindowTitle("2048");
 
     // Creating gameboard widget
     board = new QGameBoard(w);
