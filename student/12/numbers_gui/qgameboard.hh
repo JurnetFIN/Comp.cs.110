@@ -12,7 +12,11 @@ public:
     QGameBoard(QWidget *parent);
     ~QGameBoard();
 
+    // Printing gameboard
     void print();
+
+    // Counting score
+    unsigned int get_score();
 
 private:
     QGridLayout *layout_;

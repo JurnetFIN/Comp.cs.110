@@ -38,7 +38,7 @@ MainWindow::MainWindow()
     board->print();
     layout_->addWidget(w);
 
-    // Creates rest pushbuttons
+    // Create rest pushbuttons
     createMoveButtons();
     createButtons();
 
@@ -89,8 +89,8 @@ void MainWindow::readInputs() {
     // Creating goal input and setting range
     QLabel *goalLabel = new QLabel("Goal: ");
     goalInput_ = new QSpinBox();
-    goalInput_->setRange(4, 65536);
-    goalInput_->setValue(2048);
+    goalInput_->setRange(4, pow(2, SIZE*SIZE));
+    goalInput_->setValue(DEFAULT_GOAL);
 
     // Adding widgets to inputlayout
     inputs->addWidget(seedLabel, 0, 0);
@@ -150,6 +150,8 @@ void MainWindow::createMoveButtons()
  * @param goal, int
  */
 void MainWindow::move(Coords dir, int goal) {
+    unsigned int score = 0;
+
     // Moving numbers
     // If player reached goal function return true
     if(board->move(dir, goal)) {
@@ -168,6 +170,7 @@ void MainWindow::move(Coords dir, int goal) {
         board->print();
         return;
     }
+
     // Checking has the player lost
     else if(board->is_full()) {
         // Pausing game
@@ -189,6 +192,11 @@ void MainWindow::move(Coords dir, int goal) {
     // Printing gameboard situation
     board->new_value(false);
     board->print();
+
+    // Displaying score
+    score = board->get_score();
+    QString text = QString("Your current score: %1").arg(score);
+    infoText->setText(text);
 }
 
 /**
@@ -222,17 +230,22 @@ void MainWindow::createButtons()
 }
 
 /**
- * On clicking start button, game start. Then button is transformed to
+ * On clicking start button, game starts. Then button is transformed to
  * pause/continue button. When pushing "pause" game stop receiving inputs
  * When pushing "continue" game starts again receiving inputs.
  */
 void MainWindow::onStartClicked() {
+    unsigned int score = 0;
+
     // Receiving goal input
     goal_ = (goalInput_->value());
 
     // Checking if input is a power of two
     if(ceil(log2(goal_)) != floor(log2(goal_))) {
-        infoText->setText("Goal isn't power of two, please change value");
+        // Suggest nearest power of two
+        double t = pow(2,round(log2(goal_)));
+        QString text = QString("Goal isn't power of two, please change goal value to, for example, %1").arg(t);
+        infoText->setText(text);
         return;
     }
 
@@ -271,6 +284,13 @@ void MainWindow::onStartClicked() {
 
     // Enabling reset button if game has started
     reset_->setEnabled(isStarted_);
+
+    // Displaying score
+    if (isPaused_ == false) {
+        score = board->get_score();
+        QString text = QString("Your current score: %1").arg(score);
+        infoText->setText(text);
+    }
 }
 
 /**

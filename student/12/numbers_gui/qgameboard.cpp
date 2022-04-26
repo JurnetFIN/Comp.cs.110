@@ -21,29 +21,35 @@ QGameBoard::~QGameBoard()
 { 
 }
 
+/**
+ * Print gameboard
+ */
 void QGameBoard::print() {
     for(auto i = 0; i < SIZE; ++i) {
         for(auto j = 0; j < SIZE; ++j)
         {
+            // Getting tile
             NumberTile* tile = get_item(std::make_pair(i,j));
 
+            // Get pointer to label from layout
             QLayoutItem* item = layout_->itemAtPosition(i,j);
             QWidget* widget = item->widget();
             QLabel* label = dynamic_cast<QLabel*>(widget);
+            label->setAlignment(Qt::AlignCenter);
 
             int tileValue = 0;
 
-            if (tile) {
+            // Sanity check
+            if (tile)
                 tileValue = tile->get_value();
-            }
 
+            // Setting value for label
             if (tileValue > 0)
                 label->setNum(tileValue);
             else
                 label->setText("");
 
-            label->setAlignment(Qt::AlignCenter);
-
+            // Setting style of label depending on the value
             switch (tileValue) {
             case 2: {
                 label->setStyleSheet("QLabel { background: rgb(238,228,218); color: rgb(119,110,101); font: bold; border-radius: 10px; font: 40pt; }");
@@ -96,4 +102,36 @@ void QGameBoard::print() {
             }            
         }
     }
+}
+
+/**
+ * Counting score by adding together values of tiles
+ * @return score
+ */
+unsigned int QGameBoard::get_score() {
+    unsigned int score = 0;
+
+    // Counting score
+    for(auto i = 0; i < SIZE; ++i) {
+        for(auto j = 0; j < SIZE; ++j)
+        {
+            NumberTile* tile = get_item(std::make_pair(i,j));
+
+            int tileValue = 0;
+
+            if (tile) {
+                tileValue = tile->get_value();
+            }
+
+            score += tileValue;
+        }
+    }
+
+    // Subtract starting grid
+    if (score < 2*SIZE)
+        score  = 0;
+    else
+        score -= 2*SIZE;
+
+    return score;
 }

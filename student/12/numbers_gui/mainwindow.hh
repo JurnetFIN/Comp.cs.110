@@ -1,7 +1,6 @@
 #ifndef MAINWINDOW_HH
 #define MAINWINDOW_HH
 
-#include <QDialog>
 #include <QMainWindow>
 #include <QGraphicsView>
 #include <QGraphicsScene>
