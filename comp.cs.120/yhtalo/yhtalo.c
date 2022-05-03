@@ -4,11 +4,13 @@
 
 int main(int argc, char *argv[])
 {
-    float a = atof(argv[1]);
-    float b = atof(argv[2]);
-    float c = atof(argv[3]);
+    float a, b, c, x, x1, x2, ratkaisut;
 
-    float ratkaisut = b*b - 4*a*c;
+    a = atof(argv[1]);
+    b = atof(argv[2]);
+    c = atof(argv[3]);
+
+    ratkaisut = b*b - 4*a*c;
 
     if(ratkaisut < 0) {
         printf("Ei ratkaisua\n");
@@ -16,13 +18,13 @@ int main(int argc, char *argv[])
     }
 
     if(ratkaisut == 0) {
-        float x = (-1*b)/(2*a);
+        x = (-1*b)/(2*a);
         printf("%.3f\n", x);
         return 0;
     }
 
-    float x1 = ((-1*b)+sqrt(ratkaisut))/(2*a);
-    float x2 = ((-1*b)-sqrt(ratkaisut))/(2*a);
+    x1 = ((-1*b)+sqrt(ratkaisut))/(2*a);
+    x2 = ((-1*b)-sqrt(ratkaisut))/(2*a);
     printf("%.3f %.3f\n", x2, x1);
 
     return 0;
